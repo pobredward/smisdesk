@@ -55,7 +55,7 @@ async function migrateToSmisdeskDb() {
     console.log('================================');
     
     const smisdeskSettingsSnapshot = await getDocs(collection(smisdeskDb, 'settings'));
-    smisdeskSettingsSnapshot.forEach((doc, index) => {
+    smisdeskSettingsSnapshot.docs.forEach((doc, index) => {
       const data = doc.data();
       console.log(`📄 설정 문서 #${index + 1} (ID: ${doc.id}):`);
       console.log('  - desktopVideoUrl:', data.desktopVideoUrl || '(없음)');
@@ -65,7 +65,7 @@ async function migrateToSmisdeskDb() {
     });
     
     const smisdeskClientsSnapshot = await getDocs(collection(smisdeskDb, 'clients'));
-    smisdeskClientsSnapshot.forEach((doc, index) => {
+    smisdeskClientsSnapshot.docs.forEach((doc, index) => {
       const data = doc.data();
       console.log(`👤 클라이언트 #${index + 1} (ID: ${doc.id}):`);
       console.log('  - clientId:', data.clientId || '(없음)');

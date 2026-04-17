@@ -25,7 +25,7 @@ async function checkFirestoreData() {
     if (settingsSnapshot.empty) {
       console.log('❌ Settings 컬렉션이 비어있습니다.');
     } else {
-      settingsSnapshot.forEach((doc, index) => {
+      settingsSnapshot.docs.forEach((doc, index) => {
         const data = doc.data();
         console.log(`📄 문서 #${index + 1} (ID: ${doc.id}):`);
         console.log('  - desktopVideoUrl:', data.desktopVideoUrl || '(없음)');
@@ -45,7 +45,7 @@ async function checkFirestoreData() {
     if (clientsSnapshot.empty) {
       console.log('❌ Clients 컬렉션이 비어있습니다.');
     } else {
-      clientsSnapshot.forEach((doc, index) => {
+      clientsSnapshot.docs.forEach((doc, index) => {
         const data = doc.data();
         console.log(`👤 클라이언트 #${index + 1} (ID: ${doc.id}):`);
         console.log('  - clientId:', data.clientId || '(없음)');

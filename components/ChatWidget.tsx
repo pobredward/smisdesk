@@ -18,7 +18,7 @@ interface ChatWidgetProps {
 export default function ChatWidget({ clientId, onClose }: ChatWidgetProps) {
   const { clients, loading } = useClients();
   const [clientInfo, setClientInfo] = useState<any>(null);
-  const [availableCamps, setAvailableCamps] = useState<typeof LOCATIONS>([]);
+  const [availableCamps, setAvailableCamps] = useState<(typeof LOCATIONS)[number][]>([]);
   
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -47,7 +47,7 @@ export default function ChatWidget({ clientId, onClose }: ChatWidgetProps) {
       const allCamps = LOCATIONS.filter(loc => loc.id !== 'common');
       
       if (info?.availableLocations && info.availableLocations.length > 0) {
-        const filtered = allCamps.filter(camp => info.availableLocations.includes(camp.id));
+        const filtered = allCamps.filter(camp => info.availableLocations!.includes(camp.id));
         setAvailableCamps(filtered);
         // 첫 번째 사용 가능한 캠프로 자동 선택
         if (filtered.length > 0) {
@@ -87,7 +87,7 @@ export default function ChatWidget({ clientId, onClose }: ChatWidgetProps) {
             
             // 거래처별 사용 가능한 캠프 필터링
             if (clientInfo?.availableLocations && clientInfo.availableLocations.length > 0) {
-              if (faq.location !== 'common' && !clientInfo.availableLocations.includes(faq.location)) {
+              if (faq.location !== 'common' && !clientInfo.availableLocations!.includes(faq.location)) {
                 return false;
               }
             }
@@ -158,7 +158,7 @@ export default function ChatWidget({ clientId, onClose }: ChatWidgetProps) {
         if (faq.location === selectedLocation) {
           // 거래처별 사용 가능한 캠프 확인
           if (clientInfo?.availableLocations && clientInfo.availableLocations.length > 0) {
-            return clientInfo.availableLocations.includes(faq.location);
+            return clientInfo.availableLocations!.includes(faq.location);
           }
           return true;
         }

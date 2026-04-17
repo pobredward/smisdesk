@@ -29,25 +29,45 @@ export const LOCATIONS = [
     id: 'je' as const, 
     name: 'SMIS 제주캠프', 
     emoji: '🏝️',
-    description: '제주도에서 진행되는 여름/겨울 캠프'
+    subtitle: '제주의 자연 속에서 완성되는 아이의 진짜 성장',
+    description: '제주도에서 진행되는 여름/겨울 캠프',
+    target: '초3 - 중2',
+    location: '제주 한림읍 일성 콘도',
+    period: '7/26 - 8/14\n(19박 20일)',
+    price: '390만원'
   },
   { 
     id: 's' as const, 
     name: 'SMIS 싱가포르&말레이시아 주니어캠프', 
     emoji: '🌴',
-    description: '싱가포르와 말레이시아를 체험하는 주니어 캠프'
+    subtitle: '아이의 세계가 한 번 더 커지는 시간, 말레이시아에서 만나는 더 큰 세상',
+    description: '싱가포르와 말레이시아를 체험하는 주니어 캠프',
+    target: '초3 - 중2',
+    location: '말레이시아 조호바루 포레스트 시티 리조트',
+    period: '4주 : 7/22 - 8/17\n2.5주 : 7/22 - 8/8',
+    price: '4주 : 555만원\n2.5주 : 415만원'
   },
   { 
     id: 'f' as const, 
     name: 'SMIS 말레이시아 가족캠프', 
     emoji: '👨‍👩‍👧‍👦',
-    description: '가족과 함께하는 말레이시아 캠프'
+    subtitle: '따로 또 같이, 우리 가족이 함께 써 내려가는 글로벌 한 달 살기',
+    description: '가족과 함께하는 말레이시아 캠프',
+    target: '만5세 - 초6',
+    location: '말레이시아 조호바루 RAMADA HOTEL',
+    period: '4주 : 7/23 - 8/17\n2.5주 : 7/23 - 8/8',
+    price: '4주 : 2인 810 / 3인 1140 / 4인 1430\n2.5주 : 2인 670 / 3인 945 / 4인 1160'
   },
   { 
     id: 'common' as const, 
     name: '공통 (모든 캠프)', 
     emoji: '🌏',
-    description: '모든 캠프에 공통으로 적용되는 FAQ'
+    subtitle: '',
+    description: '모든 캠프에 공통으로 적용되는 FAQ',
+    target: '',
+    location: '',
+    period: '',
+    price: ''
   },
 ] as const;
 

@@ -154,7 +154,7 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50">
       {/* 데스크탑 Hero Section - 영상과 텍스트 함께 (16:9 비율) */}
-      <section className="hero-video-desktop hidden md:block relative w-full overflow-hidden" style={{ aspectRatio: '16/9', maxHeight: '100vh' }}>
+      <section className="hero-video-desktop hidden md:block relative w-full overflow-hidden" style={{ aspectRatio: '16/9', maxHeight: 'calc(100vh - 100px)' }}>
         {(desktopVideoUrl || mobileVideoUrl) ? (
           <ResponsiveHeroVideo 
             desktopVideoUrl={desktopVideoUrl} 
@@ -166,11 +166,11 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
         
         {/* Overlay - 하단 컨트롤 영역은 제외 */}
         <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
         
         {/* Content */}
         <div className="relative h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 z-10 -mt-24 lg:-mt-32">
+          <div className="text-center text-white px-4 z-10 -mt-32 lg:-mt-100">
             <h1 className="text-6xl lg:text-7xl font-bold mb-6 drop-shadow-2xl">
               {clientInfo?.customTexts?.heroTitle || 'SMIS 데스크'}
             </h1>
@@ -283,7 +283,7 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
         </section>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 pb-32">
         {/* Camp Cards */}
         <section className="mb-16">
 

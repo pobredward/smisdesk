@@ -12,6 +12,70 @@ import StickyBottomBar from '@/components/StickyBottomBar';
 import ResponsiveHeroVideo from '@/components/ResponsiveHeroVideo';
 import { useClients } from '@/lib/hooks/useClients';
 
+// 캠프 이미지 컴포넌트 (다양한 형식 지원)
+function CampImage({ campId, campName, campEmoji }: { 
+  campId: string; 
+  campName: string; 
+  campEmoji: string; 
+}) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
+  
+  // 이미지 형식 우선순위: png, jpg, jpeg
+  const imageFormats = ['png', 'jpg', 'jpeg'];
+  
+  useEffect(() => {
+    const tryLoadImage = async () => {
+      for (const format of imageFormats) {
+        try {
+          const src = `/images/camps/${campId}.${format}`;
+          // 이미지 존재 여부 확인
+          const response = await fetch(src, { method: 'HEAD' });
+          if (response.ok) {
+            setImageSrc(src);
+            return;
+          }
+        } catch (error) {
+          // 계속해서 다음 형식 시도
+        }
+      }
+      // 모든 형식 실패 시 에러 처리
+      setImageError(true);
+    };
+    
+    tryLoadImage();
+  }, [campId]);
+  
+  return (
+    <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+      {imageSrc && !imageError ? (
+        <>
+          {/* 16:9 비율 이미지 */}
+          <Image
+            src={imageSrc}
+            alt={`${campName} 캠프 이미지`}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImageError(true)}
+          />
+          {/* 호버 오버레이 */}
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+        </>
+      ) : (
+        <>
+          {/* 이미지 로드 실패 시 대체 배경 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <span className="text-6xl">{campEmoji}</span>
+          </div>
+          {/* 호버 오버레이 */}
+          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function ClientPage({ params }: { params: Promise<{ client: string }> }) {
   const { client } = use(params);
   const { clients, loading } = useClients();
@@ -212,29 +276,11 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
                 href={`/${client}/camp/${camp.id}`}
                 className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-blue-400"
               >
-                <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                  {/* 16:9 비율 이미지 */}
-                  <Image
-                    src={`/images/camps/${camp.id}.jpg`}
-                    alt={`${camp.name} 캠프 이미지`}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    onError={(e) => {
-                      // 이미지 로드 실패 시 기본 배경 표시
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const fallback = target.parentElement?.querySelector('.fallback-bg') as HTMLElement;
-                      if (fallback) fallback.style.display = 'flex';
-                    }}
-                  />
-                  {/* 이미지 로드 실패 시 대체 배경 */}
-                  <div className="fallback-bg absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center" style={{ display: 'none' }}>
-                    <span className="text-6xl">{camp.emoji}</span>
-                  </div>
-                  {/* 호버 오버레이 */}
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                </div>
+                <CampImage 
+                  campId={camp.id} 
+                  campName={camp.name} 
+                  campEmoji={camp.emoji} 
+                />
                 
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">

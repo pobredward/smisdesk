@@ -1,0 +1,109 @@
+import { Timestamp } from 'firebase/firestore';
+
+export type LocationType = 'je' | 's' | 'f' | 'common';
+
+// ClientType은 이제 동적으로 로드됩니다 (useClients 훅 사용)
+// 하드코딩된 타입 대신 string 사용
+export type ClientType = string;
+
+// 기본 카테고리 (초기 설정 시 사용)
+export const DEFAULT_CATEGORIES = [
+  '등록',
+  '프로그램(수업)',
+  '야외활동',
+  '반배정',
+  '환자',
+  '원어민 선생님',
+  '멘토 선생님',
+  '생활&숙소',
+  '식단',
+];
+
+// 거래처 설정 (하드코딩 제거 - Firestore에서 동적으로 로드)
+// 이제 useClients() 훅을 사용하여 거래처 목록을 가져옵니다
+// 예: const { clients } = useClients();
+
+// 캠프 위치 설정
+export const LOCATIONS = [
+  { 
+    id: 'je' as const, 
+    name: 'SMIS 제주캠프', 
+    emoji: '🏝️',
+    description: '제주도에서 진행되는 여름/겨울 캠프'
+  },
+  { 
+    id: 's' as const, 
+    name: 'SMIS 싱가포르&말레이시아 주니어캠프', 
+    emoji: '🌴',
+    description: '싱가포르와 말레이시아를 체험하는 주니어 캠프'
+  },
+  { 
+    id: 'f' as const, 
+    name: 'SMIS 말레이시아 가족캠프', 
+    emoji: '👨‍👩‍👧‍👦',
+    description: '가족과 함께하는 말레이시아 캠프'
+  },
+  { 
+    id: 'common' as const, 
+    name: '공통 (모든 캠프)', 
+    emoji: '🌏',
+    description: '모든 캠프에 공통으로 적용되는 FAQ'
+  },
+] as const;
+
+// 기본 색상 팔레트
+export const COLOR_PALETTE = [
+  'bg-blue-100 text-blue-700',
+  'bg-purple-100 text-purple-700',
+  'bg-green-100 text-green-700',
+  'bg-orange-100 text-orange-700',
+  'bg-red-100 text-red-700',
+  'bg-indigo-100 text-indigo-700',
+  'bg-pink-100 text-pink-700',
+  'bg-yellow-100 text-yellow-700',
+  'bg-teal-100 text-teal-700',
+  'bg-cyan-100 text-cyan-700',
+  'bg-lime-100 text-lime-700',
+  'bg-amber-100 text-amber-700',
+];
+
+export interface Category {
+  id: string;
+  name: string;
+  color: string;
+  order: number;
+  location: LocationType;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+  keywords: string[];
+  location: LocationType;
+  clients: ClientType[];
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  sources?: string[];
+  category?: string;
+  location?: string;
+}
+
+export interface ChatRequest {
+  query: string;
+}
+
+export interface ChatResponse {
+  answer: string;
+  sources?: string[];
+}

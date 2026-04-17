@@ -3,11 +3,14 @@
 import { use } from 'react';
 import { LOCATIONS } from '@/lib/types';
 import Link from 'next/link';
-import { ArrowLeft, BookOpen, Calendar, Users, MapPin, Phone, Mail } from 'lucide-react';
+import { ArrowLeft, BookOpen, Calendar, Users, MapPin, Phone, Mail, Camera, Settings, Home, GraduationCap } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import FloatingActions from '@/components/FloatingActions';
 import { useClients } from '@/lib/hooks/useClients';
 import { useState, useEffect } from 'react';
+import CampSection from '@/components/camp/CampSection';
+import CampHeroCard from '@/components/camp/CampHeroCard';
+import { getAllCampSections } from '@/lib/camp-content';
 
 export default function ClientCampDetailPage({ 
   params 
@@ -66,91 +69,46 @@ export default function ClientCampDetailPage({
       </nav>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <div className="text-8xl mb-6">{camp.emoji}</div>
-            <h1 className="text-5xl font-bold mb-4">{camp.name}</h1>
-            <p className="text-xl text-blue-100 mb-2">{camp.description}</p>
-          </div>
-        </div>
-      </div>
+      <CampHeroCard camp={camp} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Quick Info */}
-        <section className="mb-12 grid md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-            <div className="flex items-center gap-3 mb-3">
-              <Users className="w-6 h-6 text-blue-600" />
-              <h3 className="font-semibold text-lg">대상</h3>
-            </div>
-            <p className="text-gray-600">초등학생 ~ 중학생</p>
-          </div>
 
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-            <div className="flex items-center gap-3 mb-3">
-              <Calendar className="w-6 h-6 text-green-600" />
-              <h3 className="font-semibold text-lg">기간</h3>
-            </div>
-            <p className="text-gray-600">2주 ~ 4주</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-            <div className="flex items-center gap-3 mb-3">
-              <MapPin className="w-6 h-6 text-red-600" />
-              <h3 className="font-semibold text-lg">위치</h3>
-            </div>
-            <p className="text-gray-600">{camp.name.split('SMIS ')[1]}</p>
-          </div>
-        </section>
-
-        {/* Category Sections */}
+        {/* Camp Sections */}
         <section className="space-y-12">
-          {/* 등록 */}
-          <div id="registration" className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-blue-600" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900">등록 안내</h2>
-            </div>
-            <div className="prose max-w-none">
-              <p className="text-gray-600 leading-relaxed">
-                {camp.name} 등록에 관한 자세한 정보를 확인하세요. 
-                등록 절차, 필요 서류, 비용 등에 대한 안내를 제공합니다.
-              </p>
-            </div>
-          </div>
+          {getAllCampSections(camp.id).map((section, index) => {
+            const getIcon = () => {
+              switch (section.id) {
+                case 'overview':
+                  return <BookOpen className="w-6 h-6 text-blue-600" />;
+                case 'schedule':
+                  return <Calendar className="w-6 h-6 text-green-600" />;
+                case 'mentors':
+                  return <GraduationCap className="w-6 h-6 text-purple-600" />;
+                case 'management':
+                  return <Settings className="w-6 h-6 text-red-600" />;
+                case 'environment':
+                  return <Home className="w-6 h-6 text-orange-600" />;
+                case 'activities':
+                  return <Camera className="w-6 h-6 text-yellow-600" />;
+                default:
+                  return <BookOpen className="w-6 h-6 text-blue-600" />;
+              }
+            };
 
-          {/* 프로그램 */}
-          <div id="program" className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-green-600" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900">프로그램</h2>
-            </div>
-            <div className="prose max-w-none">
-              <p className="text-gray-600 leading-relaxed">
-                원어민 수업, 영어 패턴, 인문학, STEAM 등 다양한 프로그램을 운영합니다.
-              </p>
-            </div>
-          </div>
-
-          {/* 숙소 */}
-          <div id="accommodation" className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-orange-600" />
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900">생활 & 숙소</h2>
-            </div>
-            <div className="prose max-w-none">
-              <p className="text-gray-600 leading-relaxed">
-                안전하고 쾌적한 숙소에서 생활합니다. 방 배정, 식사, 세탁 등 생활 전반에 대한 정보를 확인하세요.
-              </p>
-            </div>
-          </div>
+            return (
+              <CampSection
+                key={section.id}
+                id={section.id}
+                title={section.title}
+                description={section.description}
+                icon={getIcon()}
+                campId={camp.id}
+                clientId={client}
+                detailContent={section.detailContent}
+                iconBgColor={section.iconBgColor}
+              />
+            );
+          })}
         </section>
 
         {/* Contact Section */}

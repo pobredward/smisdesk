@@ -66,7 +66,7 @@ interface CampTabContentProps {
 export default function CampTabContent({ activeTab, camp, clientId }: CampTabContentProps) {
   const renderTabContent = () => {
     const commonProps = {
-      camp,
+      campId: camp.id,
       clientId
     };
 

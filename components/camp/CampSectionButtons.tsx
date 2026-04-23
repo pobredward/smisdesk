@@ -17,7 +17,7 @@ import {
 export interface SectionButton {
   id: string;
   label: string;
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   color: string;
   bgColor: string;
   description: string;
@@ -27,7 +27,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'registration',
     label: '등록결제',
-    icon: <CreditCard className="w-6 h-6" />,
+    icon: <CreditCard />,
     color: 'text-green-600',
     bgColor: 'bg-green-50 hover:bg-green-100 border-green-200',
     description: '캠프 등록 절차와 결제 정보'
@@ -35,7 +35,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'overview', 
     label: '프로그램',
-    icon: <BookOpen className="w-6 h-6" />,
+    icon: <BookOpen  />,
     color: 'text-blue-600',
     bgColor: 'bg-blue-50 hover:bg-blue-100 border-blue-200',
     description: '캠프의 목표와 교육 철학'
@@ -43,7 +43,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'mentors',
     label: '강사진',
-    icon: <GraduationCap className="w-6 h-6" />,
+    icon: <GraduationCap  />,
     color: 'text-purple-600',
     bgColor: 'bg-purple-50 hover:bg-purple-100 border-purple-200',
     description: '우수한 원어민 및 한국인 멘토진'
@@ -51,7 +51,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'schedule',
     label: '일정표',
-    icon: <Calendar className="w-6 h-6" />,
+    icon: <Calendar  />,
     color: 'text-orange-600',
     bgColor: 'bg-orange-50 hover:bg-orange-100 border-orange-200',
     description: '상세한 일정표와 프로그램 구성'
@@ -59,7 +59,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'environment',
     label: '시설환경',
-    icon: <Home className="w-6 h-6" />,
+    icon: <Home  />,
     color: 'text-teal-600',
     bgColor: 'bg-teal-50 hover:bg-teal-100 border-teal-200',
     description: '시설 및 식단 정보'
@@ -67,7 +67,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'management',
     label: '학생관리',
-    icon: <Settings className="w-6 h-6" />,
+    icon: <Settings  />,
     color: 'text-red-600',
     bgColor: 'bg-red-50 hover:bg-red-100 border-red-200',
     description: '체계적인 학생 관리 시스템'
@@ -75,7 +75,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'extracurricular',
     label: '특별활동',
-    icon: <Sparkles className="w-6 h-6" />,
+    icon: <Sparkles  />,
     color: 'text-pink-600',
     bgColor: 'bg-pink-50 hover:bg-pink-100 border-pink-200',
     description: '특별 활동 및 이벤트'
@@ -83,7 +83,7 @@ export const CAMP_SECTIONS: SectionButton[] = [
   {
     id: 'gallery',
     label: '활동사진',
-    icon: <Camera className="w-6 h-6" />,
+    icon: <Camera  />,
     color: 'text-yellow-600',
     bgColor: 'bg-yellow-50 hover:bg-yellow-100 border-yellow-200',
     description: '캠프 활동 사진'
@@ -120,9 +120,7 @@ export default function CampSectionButtons({ campId, clientId }: CampSectionButt
             >
               <div className="flex flex-col items-center text-center justify-center h-full space-y-2">
                 <div className={`${section.color} group-hover:scale-110 transition-transform duration-300`}>
-                  {React.cloneElement(section.icon as React.ReactElement, {
-                    className: "w-5 h-5"
-                  })}
+                  <div className="w-5 h-5">{section.icon}</div>
                 </div>
                 <h3 className="font-bold text-gray-900 text-sm leading-tight">
                   {section.label}
@@ -142,9 +140,7 @@ export default function CampSectionButtons({ campId, clientId }: CampSectionButt
             >
               <div className="flex flex-col items-center text-center justify-center h-full space-y-2">
                 <div className={`${section.color} group-hover:scale-110 transition-transform duration-300`}>
-                  {React.cloneElement(section.icon as React.ReactElement, {
-                    className: "w-5 h-5"
-                  })}
+                  <div className="w-5 h-5">{section.icon}</div>
                 </div>
                 <h3 className="font-bold text-gray-900 text-sm leading-tight">
                   {section.label}
@@ -165,9 +161,7 @@ export default function CampSectionButtons({ campId, clientId }: CampSectionButt
             >
               <div className="flex flex-col items-center text-center justify-center h-full space-y-2">
                 <div className={`${section.color} group-hover:scale-110 transition-transform duration-300`}>
-                  {React.cloneElement(section.icon as React.ReactElement, {
-                    className: "w-5 h-5"
-                  })}
+                  <div className="w-5 h-5">{section.icon}</div>
                 </div>
                 <h3 className="font-bold text-gray-900 text-sm leading-tight">
                   {section.label}
@@ -190,9 +184,7 @@ export default function CampSectionButtons({ campId, clientId }: CampSectionButt
             >
               <div className="flex flex-col items-center text-center justify-center h-full space-y-4">
                 <div className={`${section.color} group-hover:scale-110 transition-transform duration-300`}>
-                  {React.cloneElement(section.icon as React.ReactElement, {
-                    className: "w-6 h-6"
-                  })}
+                  <div className="w-8 h-8">{section.icon}</div>
                 </div>
                 <h3 className="font-bold text-gray-900 text-lg leading-tight">
                   {section.label}
@@ -219,9 +211,7 @@ export default function CampSectionButtons({ campId, clientId }: CampSectionButt
             >
               <div className="flex flex-col items-center text-center justify-center h-full space-y-4">
                 <div className={`${section.color} group-hover:scale-110 transition-transform duration-300`}>
-                  {React.cloneElement(section.icon as React.ReactElement, {
-                    className: "w-6 h-6"
-                  })}
+                  <div className="w-8 h-8">{section.icon}</div>
                 </div>
                 <h3 className="font-bold text-gray-900 text-lg leading-tight">
                   {section.label}

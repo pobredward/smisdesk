@@ -2,14 +2,15 @@
 
 import { use } from 'react';
 import { LOCATIONS } from '@/lib/types';
+import Link from 'next/link';
+import { ArrowLeft, BookOpen, Calendar, Users, MapPin, Phone, Mail, Camera, Settings, Home, GraduationCap } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import AdaptiveBottomBar from '@/components/AdaptiveBottomBar';
+import FloatingActions from '@/components/FloatingActions';
 import { useClients } from '@/lib/hooks/useClients';
 import { useState, useEffect } from 'react';
-import CampHeader from '@/components/camp/CampHeader';
-import CampSectionButtons from '@/components/camp/CampSectionButtons';
-import CampHeroSection from '@/components/camp/CampHeroSection';
-import Link from 'next/link';
+import CampSection from '@/components/camp/CampSection';
+import CampHeroCard from '@/components/camp/CampHeroCard';
+import { getAllCampSections } from '@/lib/camp-content';
 
 export default function ClientCampDetailPage({ 
   params 
@@ -38,7 +39,7 @@ export default function ClientCampDetailPage({
       <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4 animate-pulse">
-            <div className="w-8 h-8 bg-blue-600 rounded-full" />
+            <Users className="w-8 h-8 text-blue-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">페이지 로딩 중...</h2>
           <p className="text-gray-600">잠시만 기다려주세요</p>
@@ -54,18 +55,92 @@ export default function ClientCampDetailPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50">
-      {/* 네비게이션 헤더 */}
-      <CampHeader clientId={client} />
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <Link 
+            href={`/${client}`} 
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>SMIS 데스크로 돌아가기</span>
+          </Link>
+        </div>
+      </nav>
 
-      {/* 섹션 버튼들 */}
-      <CampSectionButtons campId={id} clientId={client} />
+      {/* Hero Section */}
+      <CampHeroCard camp={camp} />
 
-      {/* 캠프 Hero 섹션 */}
-      <CampHeroSection camp={camp} />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
+        {/* Camp Sections */}
+        <section className="space-y-12">
+          {getAllCampSections(camp.id).map((section, index) => {
+            const getIcon = () => {
+              switch (section.id) {
+                case 'overview':
+                  return <BookOpen className="w-6 h-6 text-blue-600" />;
+                case 'schedule':
+                  return <Calendar className="w-6 h-6 text-green-600" />;
+                case 'mentors':
+                  return <GraduationCap className="w-6 h-6 text-purple-600" />;
+                case 'management':
+                  return <Settings className="w-6 h-6 text-red-600" />;
+                case 'environment':
+                  return <Home className="w-6 h-6 text-orange-600" />;
+                case 'activities':
+                  return <Camera className="w-6 h-6 text-yellow-600" />;
+                default:
+                  return <BookOpen className="w-6 h-6 text-blue-600" />;
+              }
+            };
+
+            return (
+              <CampSection
+                key={section.id}
+                id={section.id}
+                title={section.title}
+                description={section.description}
+                icon={getIcon()}
+                campId={camp.id}
+                clientId={client}
+                detailContent={section.detailContent}
+                iconBgColor={section.iconBgColor}
+              />
+            );
+          })}
+        </section>
+
+        {/* Contact Section */}
+        <section className="mt-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl shadow-xl p-8 text-white">
+          <h2 className="text-2xl font-bold mb-6 text-center">문의하기</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <a
+              href="tel:010-3179-4282"
+              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
+            >
+              <Phone className="w-6 h-6" />
+              <div>
+                <div className="font-semibold">전화 문의</div>
+                <div className="text-sm text-blue-100">010-3179-4282</div>
+              </div>
+            </a>
+            <a
+              href="mailto:camp@smis.co.kr"
+              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
+            >
+              <Mail className="w-6 h-6" />
+              <div>
+                <div className="font-semibold">이메일 문의</div>
+                <div className="text-sm text-blue-100">camp@smis.co.kr</div>
+              </div>
+            </a>
+          </div>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 mt-20 mb-20">
+      <footer className="bg-gray-900 text-gray-400 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid md:grid-cols-3 gap-8 mb-6">
             {/* 회사 정보 */}
@@ -148,8 +223,8 @@ export default function ClientCampDetailPage({
         </div>
       </footer>
 
-      {/* Adaptive Bottom Bar */}
-      <AdaptiveBottomBar clientId={client} />
+      {/* Floating Actions */}
+      <FloatingActions clientId={client} />
     </div>
   );
 }

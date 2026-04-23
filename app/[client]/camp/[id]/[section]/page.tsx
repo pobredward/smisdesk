@@ -3,13 +3,24 @@
 import { use } from 'react';
 import { LOCATIONS } from '@/lib/types';
 import Link from 'next/link';
-import { ArrowLeft, Phone, Mail } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import FloatingActions from '@/components/FloatingActions';
+import AdaptiveBottomBar from '@/components/AdaptiveBottomBar';
 import { useClients } from '@/lib/hooks/useClients';
 import { useState, useEffect } from 'react';
-import CampImageGallery from '@/components/camp/CampImageGallery';
-import { getCampSectionData } from '@/lib/camp-content';
+import { CAMP_SECTIONS } from '@/components/camp/CampSectionButtons';
+
+// 탭 컴포넌트들을 동적 import
+import dynamic from 'next/dynamic';
+
+const RegistrationTab = dynamic(() => import('@/components/camp/tabs/RegistrationTab'));
+const OverviewTab = dynamic(() => import('@/components/camp/tabs/OverviewTab'));
+const MentorsTab = dynamic(() => import('@/components/camp/tabs/MentorsTab'));
+const ScheduleTab = dynamic(() => import('@/components/camp/tabs/ScheduleTab'));
+const EnvironmentTab = dynamic(() => import('@/components/camp/tabs/EnvironmentTab'));
+const ManagementTab = dynamic(() => import('@/components/camp/tabs/ManagementTab'));
+const ExtracurricularTab = dynamic(() => import('@/components/camp/tabs/ExtracurricularTab'));
+const GalleryTab = dynamic(() => import('@/components/camp/tabs/GalleryTab'));
 
 export default function ClientCampSectionPage({ 
   params 
@@ -21,6 +32,7 @@ export default function ClientCampSectionPage({
   const [clientInfo, setClientInfo] = useState<any>(null);
   const [isChecking, setIsChecking] = useState(true);
   const camp = LOCATIONS.find(loc => loc.id === id && loc.id !== 'common');
+  const sectionInfo = CAMP_SECTIONS.find(s => s.id === section);
 
   useEffect(() => {
     if (!loading && clients.length > 0) {
@@ -47,20 +59,39 @@ export default function ClientCampSectionPage({
     );
   }
 
-  // 거래처나 캠프를 찾지 못했을 때
-  if (!clientInfo || !camp) {
+  // 거래처나 캠프, 섹션을 찾지 못했을 때
+  if (!clientInfo || !camp || !sectionInfo) {
     notFound();
   }
 
-  let sectionData;
-  try {
-    sectionData = getCampSectionData(camp.id, section);
-  } catch (error) {
-    notFound();
-  }
+  // 섹션별 컴포넌트 렌더링
+  const renderSectionContent = () => {
+    const commonProps = { campId: id };
+
+    switch (section) {
+      case 'registration':
+        return <RegistrationTab {...commonProps} />;
+      case 'overview':
+        return <OverviewTab {...commonProps} />;
+      case 'mentors':
+        return <MentorsTab {...commonProps} />;
+      case 'schedule':
+        return <ScheduleTab {...commonProps} />;
+      case 'environment':
+        return <EnvironmentTab {...commonProps} />;
+      case 'management':
+        return <ManagementTab {...commonProps} />;
+      case 'extracurricular':
+        return <ExtracurricularTab {...commonProps} />;
+      case 'gallery':
+        return <GalleryTab {...commonProps} />;
+      default:
+        notFound();
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -74,111 +105,14 @@ export default function ClientCampSectionPage({
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="text-center">
-            <div className="text-4xl md:text-6xl mb-4 md:mb-6">{camp.emoji}</div>
-            <h1 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4">{sectionData.title}</h1>
-            <p className="text-lg md:text-xl text-blue-100 mb-2">{camp.name}</p>
-            <p className="text-base md:text-lg text-blue-200 max-w-3xl mx-auto">{sectionData.description}</p>
-          </div>
-        </div>
-      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Content Section */}
-        <section className="mb-12">
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-            <div className="prose max-w-none">
-              <div className="text-gray-700 text-lg leading-relaxed space-y-6">
-                {sectionData.detailContent.split('\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Images Gallery */}
-        {sectionData.images.length > 0 && (
-          <section className="mb-12">
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-              <CampImageGallery 
-                images={sectionData.images}
-                title={`${sectionData.title} 사진`}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Additional Content based on section type */}
-        {section === 'schedule' && (
-          <section className="mb-12">
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">하루 일과표</h3>
-              <div className="overflow-x-auto -mx-4 sm:mx-0">
-                <table className="w-full border-collapse min-w-[600px]">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="border border-gray-300 px-2 sm:px-4 py-3 text-left font-semibold text-sm sm:text-base">시간</th>
-                      <th className="border border-gray-300 px-2 sm:px-4 py-3 text-left font-semibold text-sm sm:text-base">활동</th>
-                      <th className="border border-gray-300 px-2 sm:px-4 py-3 text-left font-semibold text-sm sm:text-base">비고</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">07:00 - 08:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">기상 및 개인정리</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">08:00 - 09:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">아침식사</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">09:00 - 10:30</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">원어민 회화수업</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">레벨별 수업</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">10:30 - 10:45</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">휴식시간</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">10:45 - 12:15</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">프로젝트 수업</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">STEAM 교육</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">12:15 - 13:15</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">점심식사</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">13:15 - 14:45</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">액티비티</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">야외활동/체험</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">14:45 - 15:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">휴식시간</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">15:00 - 16:30</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">원어민 수업</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">주제별 수업</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">16:30 - 17:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">간식시간</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">17:00 - 18:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">자유활동</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">개인시간</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">18:00 - 19:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">저녁식사</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">19:00 - 20:30</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">멘토 수업</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">학습정리</td></tr>
-                    <tr className="bg-gray-50"><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">20:30 - 21:30</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">자유시간</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">휴식/개인활동</td></tr>
-                    <tr><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">21:30 - 22:00</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">취침준비</td><td className="border border-gray-300 px-2 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">-</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Contact Section */}
-        <section className="mt-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl shadow-xl p-8 text-white">
-          <h2 className="text-2xl font-bold mb-6 text-center">문의하기</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <a
-              href="tel:010-3179-4282"
-              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
-            >
-              <Phone className="w-6 h-6" />
-              <div>
-                <div className="font-semibold">전화 문의</div>
-                <div className="text-sm text-blue-100">010-3179-4282</div>
-              </div>
-            </a>
-            <a
-              href="mailto:camp@smis.co.kr"
-              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
-            >
-              <Mail className="w-6 h-6" />
-              <div>
-                <div className="font-semibold">이메일 문의</div>
-                <div className="text-sm text-blue-100">camp@smis.co.kr</div>
-              </div>
-            </a>
-          </div>
-        </section>
+      {/* 섹션 콘텐츠 */}
+      <main className="max-w-5xl mx-auto px-2 sm:px-4 md:px-6 py-4">
+        {renderSectionContent()}
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 mt-20">
+      <footer className="bg-gray-900 text-gray-400 mt-20 mb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid md:grid-cols-3 gap-8 mb-6">
             {/* 회사 정보 */}
@@ -259,8 +193,8 @@ export default function ClientCampSectionPage({
         </div>
       </footer>
 
-      {/* Floating Actions */}
-      <FloatingActions clientId={client} />
+      {/* Adaptive Bottom Bar */}
+      <AdaptiveBottomBar clientId={client} />
     </div>
   );
 }

@@ -20,19 +20,28 @@ export async function GET(
     const campId = searchParams.get('campId') || 'je';
     
     const filePath = getDataFilePath(campId);
-    const data = await fs.readFile(filePath, 'utf-8');
-    const programs: ScheduleProgram[] = JSON.parse(data);
     
-    const program = programs.find(p => p.id === id);
-    
-    if (!program) {
+    try {
+      const data = await fs.readFile(filePath, 'utf-8');
+      const programs: ScheduleProgram[] = JSON.parse(data);
+      
+      const program = programs.find(p => p.id === id);
+      
+      if (!program) {
+        return NextResponse.json(
+          { error: 'Program not found' },
+          { status: 404 }
+        );
+      }
+      
+      return NextResponse.json(program);
+    } catch (fileError) {
+      // 파일이 없으면 프로그램을 찾을 수 없음
       return NextResponse.json(
         { error: 'Program not found' },
         { status: 404 }
       );
     }
-    
-    return NextResponse.json(program);
   } catch (error) {
     console.error('Schedule GET by ID 오류:', error);
     return NextResponse.json(
@@ -53,28 +62,36 @@ export async function PUT(
     const campId = body.campId || 'je';
     
     const filePath = getDataFilePath(campId);
-    const data = await fs.readFile(filePath, 'utf-8');
-    const programs: ScheduleProgram[] = JSON.parse(data);
     
-    const index = programs.findIndex(p => p.id === id);
-    
-    if (index === -1) {
+    try {
+      const data = await fs.readFile(filePath, 'utf-8');
+      const programs: ScheduleProgram[] = JSON.parse(data);
+      
+      const index = programs.findIndex(p => p.id === id);
+      
+      if (index === -1) {
+        return NextResponse.json(
+          { error: 'Program not found' },
+          { status: 404 }
+        );
+      }
+      
+      // 프로그램 업데이트
+      programs[index] = {
+        ...programs[index],
+        ...body,
+        updatedAt: new Date()
+      };
+      
+      await fs.writeFile(filePath, JSON.stringify(programs, null, 2));
+      
+      return NextResponse.json(programs[index]);
+    } catch (fileError) {
       return NextResponse.json(
         { error: 'Program not found' },
         { status: 404 }
       );
     }
-    
-    // 프로그램 업데이트
-    programs[index] = {
-      ...programs[index],
-      ...body,
-      updatedAt: new Date()
-    };
-    
-    await fs.writeFile(filePath, JSON.stringify(programs, null, 2));
-    
-    return NextResponse.json(programs[index]);
   } catch (error) {
     console.error('Schedule PUT 오류:', error);
     return NextResponse.json(
@@ -95,22 +112,30 @@ export async function DELETE(
     const campId = searchParams.get('campId') || 'je';
     
     const filePath = getDataFilePath(campId);
-    const data = await fs.readFile(filePath, 'utf-8');
-    let programs: ScheduleProgram[] = JSON.parse(data);
     
-    const initialLength = programs.length;
-    programs = programs.filter(p => p.id !== id);
-    
-    if (programs.length === initialLength) {
+    try {
+      const data = await fs.readFile(filePath, 'utf-8');
+      let programs: ScheduleProgram[] = JSON.parse(data);
+      
+      const initialLength = programs.length;
+      programs = programs.filter(p => p.id !== id);
+      
+      if (programs.length === initialLength) {
+        return NextResponse.json(
+          { error: 'Program not found' },
+          { status: 404 }
+        );
+      }
+      
+      await fs.writeFile(filePath, JSON.stringify(programs, null, 2));
+      
+      return NextResponse.json({ message: 'Program deleted successfully' });
+    } catch (fileError) {
       return NextResponse.json(
         { error: 'Program not found' },
         { status: 404 }
       );
     }
-    
-    await fs.writeFile(filePath, JSON.stringify(programs, null, 2));
-    
-    return NextResponse.json({ message: 'Program deleted successfully' });
   } catch (error) {
     console.error('Schedule DELETE 오류:', error);
     return NextResponse.json(

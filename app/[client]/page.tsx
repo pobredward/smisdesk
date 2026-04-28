@@ -360,26 +360,30 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
           </p>
 
           {/* 핵심 지표 뱃지 4개 */}
-          <div className="flex items-center justify-center gap-2 flex-wrap mb-7">
-            <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
-              <Users className="w-3.5 h-3.5 text-yellow-300" />
-              <span className="font-bold text-yellow-300">6,000+</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 수료</span>
+          <div className="flex flex-col items-center gap-2 mb-7">
+            <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
+                <Users className="w-3.5 h-3.5 text-yellow-300" />
+                <span className="font-bold text-yellow-300">6,000+</span>
+                <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 수료</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
+                <Repeat className="w-3.5 h-3.5 text-green-300" />
+                <span className="font-bold text-green-300">40%+</span>
+                <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 재등록</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
-              <Repeat className="w-3.5 h-3.5 text-green-300" />
-              <span className="font-bold text-green-300">40%+</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 재등록</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
-              <Shield className="w-3.5 h-3.5 text-purple-300" />
-              <span className="font-bold text-purple-300">업계 최초</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>교육 프로그램 특허</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
-              <Award className="w-3.5 h-3.5 text-orange-300" />
-              <span className="font-bold text-orange-300">17년</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>운영 노하우</span>
+            <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
+                <Shield className="w-3.5 h-3.5 text-purple-300" />
+                <span className="font-bold text-purple-300">업계 최초</span>
+                <span style={{ color: 'rgba(255,255,255,0.7)' }}>교육 프로그램 특허</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
+                <Award className="w-3.5 h-3.5 text-orange-300" />
+                <span className="font-bold text-orange-300">17년</span>
+                <span style={{ color: 'rgba(255,255,255,0.7)' }}>운영 노하우</span>
+              </div>
             </div>
           </div>
 

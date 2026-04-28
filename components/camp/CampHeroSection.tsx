@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { CheckCircle2, Calendar, Home, Camera, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Calendar, Home, Camera, ChevronRight, Users, MapPin, Clock, Banknote } from 'lucide-react';
 import { LOCATIONS } from '@/lib/types';
 
 interface CampHeroSectionProps {
@@ -64,49 +64,42 @@ export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps
             )}
 
             {/* 섹션 퀵링크 */}
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               {[
-                { id: 'schedule',    label: '일정표',   icon: <Calendar className="w-5 h-5" />,  color: 'text-orange-500', bg: 'bg-orange-50' },
-                { id: 'environment', label: '시설환경', icon: <Home className="w-5 h-5" />,      color: 'text-teal-500',   bg: 'bg-teal-50'   },
-                { id: 'gallery',     label: '활동사진', icon: <Camera className="w-5 h-5" />,    color: 'text-yellow-500', bg: 'bg-yellow-50' },
-              ].map(({ id, label, icon, color, bg }) => (
+                { id: 'schedule',    label: '일정표',   icon: <Calendar className="w-5 h-5" />, color: 'text-orange-600', bg: 'bg-orange-100', border: 'border-orange-200' },
+                { id: 'environment', label: '시설환경', icon: <Home className="w-5 h-5" />,     color: 'text-teal-600',   bg: 'bg-teal-100',   border: 'border-teal-200'   },
+                { id: 'gallery',     label: '활동사진', icon: <Camera className="w-5 h-5" />,   color: 'text-violet-600', bg: 'bg-violet-100', border: 'border-violet-200' },
+              ].map(({ id, label, icon, color, bg, border }) => (
                 <Link
                   key={id}
                   href={clientId ? `/${clientId}/camp/${camp.id}/${id}` : `/camp/${camp.id}/${id}`}
-                  className="flex flex-col items-center gap-2 py-4 px-2 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 active:scale-95 transition-all duration-150"
+                  className={`group flex flex-col items-center gap-2.5 py-4 px-2 bg-white rounded-2xl border ${border} shadow-sm hover:shadow-md active:scale-95 transition-all duration-150`}
                 >
-                  <div className={`${bg} ${color} rounded-lg p-2`}>
+                  <div className={`${bg} ${color} rounded-xl p-2.5`}>
                     {icon}
                   </div>
-                  <span className="flex items-center gap-0.5 text-xs font-bold text-gray-800">
+                  <span className={`flex items-center gap-0.5 text-xs font-bold ${color}`}>
                     {label}
-                    <ChevronRight className="w-3 h-3 text-gray-400" />
+                    <ChevronRight className="w-3 h-3 opacity-60" />
                   </span>
                 </Link>
               ))}
             </div>
 
             {/* 캠프 기본 정보 */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="text-xs text-gray-500 mb-1">참가 대상</div>
-                <div className="font-semibold text-gray-900 text-sm">{camp.target}</div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="text-xs text-gray-500 mb-1">캠프 장소</div>
-                <div className="font-semibold text-gray-900 text-sm leading-tight">{camp.location}</div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="text-xs text-gray-500 mb-1">진행 기간</div>
-                <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.period}</div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="text-xs text-gray-500 mb-1">참가비</div>
-                <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.price}</div>
-              </div>
+            <div className="divide-y divide-gray-100 rounded-2xl border border-gray-100 overflow-hidden">
+              {[
+                { icon: <Users className="w-4 h-4 text-gray-400 flex-shrink-0" />, label: '참가 대상', value: camp.target },
+                { icon: <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />, label: '캠프 장소', value: camp.location },
+                { icon: <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />, label: '진행 기간', value: camp.period },
+                { icon: <Banknote className="w-4 h-4 text-gray-400 flex-shrink-0" />, label: '참가비', value: camp.price },
+              ].map(({ icon, label, value }) => (
+                <div key={label} className="flex items-start gap-3 px-4 py-3 bg-white">
+                  <div className="mt-0.5">{icon}</div>
+                  <span className="text-xs text-gray-500 w-16 flex-shrink-0 pt-0.5">{label}</span>
+                  <span className="text-sm font-semibold text-gray-900 whitespace-pre-line leading-snug">{value}</span>
+                </div>
+              ))}
             </div>
 
           </div>

@@ -38,17 +38,17 @@ export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps
 
   return (
     <section className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          {/* 캠프 이미지 — 모바일에서 먼저 */}
-          <div className="relative order-first lg:order-last">
-            <div className="relative aspect-[16/10] md:aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-200">
+      <div className="max-w-lg mx-auto px-4 py-8">
+        <div className="grid gap-6 items-start">
+          {/* 캠프 이미지 */}
+          <div className="relative">
+            <div className="relative aspect-[2/1] rounded-2xl overflow-hidden shadow-xl bg-gray-200">
               <CampHeroImage campId={camp.id} campName={camp.name} campEmoji={camp.emoji} />
             </div>
           </div>
 
           {/* 캠프 정보 */}
-          <div className="space-y-5 order-last lg:order-first">
+          <div className="space-y-5">
             {/* 헤더 */}
             <div>
               <div className="flex items-center gap-3 mb-2">

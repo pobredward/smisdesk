@@ -65,12 +65,12 @@ export default function ClientCampDetailPage({
       <CampHeroSection camp={camp} clientId={client} />
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 mt-16 mb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid md:grid-cols-3 gap-8 mb-6">
+      <footer className="bg-gray-900 text-gray-400 mt-16">
+        <div className="max-w-5xl mx-auto px-8 pt-10 pb-24">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="text-white font-bold text-base mb-3">회사 정보</h3>
-              <div className="space-y-1 text-xs">
+              <div className="space-y-1 text-sm">
                 <p className="font-semibold text-white">회사명: (주)에스엠아이에스</p>
                 <p>대표: 김선희</p>
                 <p>법인사업자 등록번호: 427-88-03423</p>
@@ -83,7 +83,7 @@ export default function ClientCampDetailPage({
 
             <div>
               <h3 className="text-white font-bold text-base mb-3">법률 문서</h3>
-              <ul className="space-y-1 text-xs">
+              <ul className="space-y-1.5 text-sm">
                 <li>
                   <Link href="/terms" className="hover:text-white transition-colors">
                     개인정보처리방침
@@ -99,21 +99,21 @@ export default function ClientCampDetailPage({
 
             <div>
               <h3 className="text-white font-bold text-base mb-3">소셜 링크</h3>
-              <ul className="space-y-1 text-xs">
+              <ul className="space-y-1.5 text-sm">
                 <li>
-                  <a href="https://www.youtube.com/@smiscamp" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
+                  <a href="https://www.youtube.com/@smiscamp" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
                     <span>유튜브 채널</span>
                     <span className="text-xs">↗</span>
                   </a>
                 </li>
                 <li>
-                  <a href="https://pf.kakao.com/_Axafxcb/chat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
+                  <a href="https://pf.kakao.com/_Axafxcb/chat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
                     <span>카카오톡 채널</span>
                     <span className="text-xs">↗</span>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.smisedu.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
+                  <a href="https://www.smisedu.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
                     <span>공식 홈페이지</span>
                     <span className="text-xs">↗</span>
                   </a>
@@ -122,7 +122,7 @@ export default function ClientCampDetailPage({
             </div>
           </div>
 
-          <div className="text-center text-xs border-t border-gray-800 pt-6">
+          <div className="border-t border-gray-800 pt-6 text-sm text-center">
             <p>&copy; {new Date().getFullYear()} (주)에스엠아이에스. All rights reserved.</p>
           </div>
         </div>

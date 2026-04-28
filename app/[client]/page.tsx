@@ -152,35 +152,25 @@ function MobileHeader({
                 className="w-8 h-8 object-contain flex-shrink-0"
               />
               <div>
-                <h1 className="font-bold text-gray-900 text-sm md:text-base leading-tight">
-                  {clientInfo?.customTexts?.heroTitle?.split(' ')[0] || 'SMIS'}
-                </h1>
+                <p className="font-bold text-gray-900 text-sm leading-tight">SMIS</p>
                 <p className="text-xs text-gray-400 leading-tight">인포데스크</p>
               </div>
             </Link>
 
-            {/* 우측: + 버튼 + 상담 신청 CTA */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
-                className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center transition-all duration-200 text-gray-700 hover:text-blue-600"
-              >
-                {isMenuOpen
-                  ? <X className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
-                  : <Plus className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
-                }
-              </button>
-
-              <a
-                href={`tel:${clientInfo?.contactPhone || '010-3179-4282'}`}
-                className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                <span className="hidden sm:inline">상담 신청</span>
-                <span className="inline sm:hidden">상담</span>
-                <span className="text-xs">→</span>
-              </a>
-            </div>
+            {/* 우측: 메뉴 토글 버튼 */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+              className="flex items-center gap-1.5 border-2 border-gray-300 hover:border-blue-500 rounded-full px-3.5 py-1.5 transition-all duration-200 text-gray-700 hover:text-blue-600"
+            >
+              {isMenuOpen
+                ? <X className="w-4 h-4" strokeWidth={2.5} />
+                : <Plus className="w-4 h-4" strokeWidth={2.5} />
+              }
+              <span className="text-sm font-semibold leading-none">
+                {isMenuOpen ? '닫기' : '메뉴'}
+              </span>
+            </button>
           </div>
         </div>
 
@@ -214,14 +204,14 @@ function MobileHeader({
               </div>
 
               {/* 상담 신청 버튼 */}
-              <a
+              {/* <a
                 href={`tel:${clientInfo?.contactPhone || '010-3179-4282'}`}
                 onClick={() => setIsMenuOpen(false)}
                 className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-md"
               >
                 <Phone className="w-4 h-4" />
                 지금 바로 상담 신청하기
-              </a>
+              </a> */}
             </div>
           </div>
         )}
@@ -405,7 +395,8 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
       </div>
 
       {/* ── [2] 캠프 선택 카드 섹션 ── */}
-      <section ref={campsSectionRef} className="max-w-lg mx-auto px-4 py-10">
+      <section ref={campsSectionRef} className="bg-white">
+      <div className="max-w-lg mx-auto px-4 py-10">
         <div className="text-center mb-6">
           <h2 className="text-xl font-bold text-gray-900 mb-1">
             우리 아이에게 맞는 캠프를 선택해 보세요
@@ -462,11 +453,12 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
             </Link>
           ))}
         </div>
+      </div>
       </section>
 
       {/* ── [3] 신뢰 지표 섹션 ── */}
-      <div className="max-w-lg mx-auto">
-        <div className="bg-white px-4 py-10">
+      <div className="bg-white">
+        <div className="max-w-lg mx-auto px-4 py-10">
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-1">
               숫자로 증명하는 SMIS의 신뢰
@@ -515,37 +507,35 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
       </div>
 
       {/* ── [4] 영상 섹션 ── */}
-      <div className="max-w-lg mx-auto">
-        <div className="bg-white px-4 py-10">
+      <div className="bg-gray-50">
+        <div className="max-w-lg mx-auto px-4 py-10">
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-1">캠프 현장을 직접 확인하세요</h2>
             <p className="text-gray-500 text-sm">아이들의 생생한 캠프 생활</p>
           </div>
-          <div className="relative bg-white rounded-2xl shadow-xl p-2">
-            <div className="relative overflow-hidden rounded-xl" style={{ aspectRatio: '9/16' }}>
-              {(desktopVideoUrl || mobileVideoUrl) ? (
-                <ResponsiveHeroVideo 
-                  desktopVideoUrl={desktopVideoUrl} 
-                  mobileVideoUrl={mobileVideoUrl}
-                />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center">
-                  <div className="text-center text-white px-4">
-                    <div className="text-4xl mb-3">🎬</div>
-                    <h3 className="text-lg font-bold mb-2">영상 준비중</h3>
-                    <p className="text-xs text-blue-100 leading-relaxed">곧 캠프 영상을 공개할 예정입니다</p>
-                  </div>
+          <div className="relative overflow-hidden rounded-2xl shadow-xl" style={{ aspectRatio: '16/9' }}>
+            {(desktopVideoUrl || mobileVideoUrl) ? (
+              <ResponsiveHeroVideo 
+                desktopVideoUrl={desktopVideoUrl} 
+                mobileVideoUrl={mobileVideoUrl}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center">
+                <div className="text-center text-white px-4">
+                  <div className="text-4xl mb-3">🎬</div>
+                  <h3 className="text-lg font-bold mb-2">영상 준비중</h3>
+                  <p className="text-xs text-blue-100 leading-relaxed">곧 캠프 영상을 공개할 예정입니다</p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* ── Footer ── */}
-      <div className="max-w-lg mx-auto">
-        <footer className="bg-gray-900 text-gray-400 mb-20 px-4 py-10">
-          <div className="grid grid-cols-1 gap-6">
+      <footer className="bg-gray-900 text-gray-400">
+        <div className="max-w-5xl mx-auto px-8 pt-10 pb-24">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="text-white font-bold text-base mb-3">회사 정보</h3>
               <div className="space-y-1.5 text-sm">
@@ -559,57 +549,55 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
               </div>
             </div>
 
-            <div className="flex gap-10">
-              <div>
-                <h3 className="text-white font-bold text-base mb-3">법률 문서</h3>
-                <ul className="space-y-1.5 text-sm">
-                  <li>
-                    <Link href="/terms" className="hover:text-white transition-colors">
-                      개인정보처리방침
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/privacy" className="hover:text-white transition-colors">
-                      서비스 이용약관
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            <div>
+              <h3 className="text-white font-bold text-base mb-3">법률 문서</h3>
+              <ul className="space-y-1.5 text-sm">
+                <li>
+                  <Link href="/terms" className="hover:text-white transition-colors">
+                    개인정보처리방침
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="hover:text-white transition-colors">
+                    서비스 이용약관
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-              <div>
-                <h3 className="text-white font-bold text-base mb-3">소셜 링크</h3>
-                <ul className="space-y-1.5 text-sm">
-                  <li>
-                    <a href="https://www.youtube.com/@smiscamp" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
-                      <span>유튜브 채널</span>
-                      <span className="text-xs">↗</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://pf.kakao.com/_Axafxcb/chat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
-                      <span>카카오톡 채널</span>
-                      <span className="text-xs">↗</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.smisedu.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
-                      <span>공식 홈페이지</span>
-                      <span className="text-xs">↗</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+            <div>
+              <h3 className="text-white font-bold text-base mb-3">소셜 링크</h3>
+              <ul className="space-y-1.5 text-sm">
+                <li>
+                  <a href="https://www.youtube.com/@smiscamp" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
+                    <span>유튜브 채널</span>
+                    <span className="text-xs">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://pf.kakao.com/_Axafxcb/chat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
+                    <span>카카오톡 채널</span>
+                    <span className="text-xs">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.smisedu.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
+                    <span>공식 홈페이지</span>
+                    <span className="text-xs">↗</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-6 text-sm text-center">
+          <div className="border-t border-gray-800 pt-6 text-sm text-center">
             {clientInfo?.customTexts?.contactInfo && (
               <p className="mb-3 text-gray-300">{clientInfo.customTexts.contactInfo}</p>
             )}
             <p>&copy; {new Date().getFullYear()} (주)에스엠아이에스. All rights reserved.</p>
           </div>
-        </footer>
-      </div>
+        </div>
+      </footer>
 
       {/* Sticky Bottom Bar */}
       <StickyBottomBar clientId={client} />

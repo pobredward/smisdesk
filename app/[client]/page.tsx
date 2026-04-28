@@ -76,23 +76,49 @@ function CampImage({ campId, campName, campEmoji }: {
   );
 }
 
-// 공통 메뉴 버튼 항목
-const COMMON_MENU_ITEMS = [
-  { id: 'overview',   label: '프로그램 소개', icon: '📚', desc: '교육 커리큘럼' },
-  { id: 'schedule',   label: '일정표',        icon: '📅', desc: '하루 시간표' },
-  { id: 'mentors',    label: '강사진',        icon: '👨‍🏫', desc: '원어민 & 멘토' },
-  { id: 'environment',label: '시설환경',      icon: '🏡', desc: '숙소 & 식단' },
-  { id: 'management', label: '학생관리',      icon: '🛡️', desc: '안전 & 생활관리' },
-  { id: 'extracurricular', label: '특별활동', icon: '✨', desc: '액티비티 & 이벤트' },
-  { id: 'gallery',    label: '활동사진',      icon: '📸', desc: '현장 생생 사진' },
-  { id: 'registration', label: '등록결제',   icon: '💳', desc: '등록 절차 & 비용' },
+const DRAWER_MENU = [
+  {
+    title: 'SMIS란',
+    campId: null as string | null,
+    links: [
+      { label: '회사 연혁', section: 'overview' },
+      { label: '최고의 강사진', section: 'mentors' },
+      { label: '빈틈없는 학생 관리', section: 'management' },
+    ],
+  },
+  {
+    title: '프리미엄 제주캠프',
+    campId: 'je',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
+  {
+    title: '싱가포르&말레이시아 주니어 캠프',
+    campId: 's',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
+  {
+    title: '말레이시아 가족캠프',
+    campId: 'f',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
 ];
 
-// 루트 페이지 헤더 (Speak 스타일: 로고 + + 버튼 + CTA)
+// 루트 페이지 헤더 (바텀 드로어 방식 — CampHeader와 통일)
 function MobileHeader({ 
   clientInfo, 
   client, 
-  displayCamps 
 }: { 
   clientInfo: any; 
   client: string; 
@@ -100,7 +126,6 @@ function MobileHeader({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // 메뉴 열릴 때 스크롤 잠금
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -136,15 +161,10 @@ function MobileHeader({
 
             {/* 우측: + 버튼 + 상담 신청 CTA */}
             <div className="flex items-center gap-2">
-              {/* + / X 토글 버튼 */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
-                className={`w-9 h-9 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                  isMenuOpen
-                    ? 'border-blue-500 bg-blue-50 text-blue-600'
-                    : 'border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600'
-                }`}
+                className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-gray-300 hover:border-blue-500 flex items-center justify-center transition-all duration-200 text-gray-700 hover:text-blue-600"
               >
                 {isMenuOpen
                   ? <X className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
@@ -152,7 +172,6 @@ function MobileHeader({
                 }
               </button>
 
-              {/* CTA — 상담 신청 */}
               <a
                 href={`tel:${clientInfo?.contactPhone || '010-3179-4282'}`}
                 className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
@@ -165,83 +184,60 @@ function MobileHeader({
           </div>
         </div>
 
-        {/* ── 드롭다운 패널 — 헤더 바로 아래 (Speak 스타일) ── */}
+        {/* 드롭다운 패널 — 헤더 바로 아래 */}
         {isMenuOpen && (
           <div
-            className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-2xl overflow-y-auto"
-            style={{ maxHeight: 'calc(100dvh - 56px)', animation: 'dropDown 0.2s ease-out' }}
+            className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl rounded-b-2xl overflow-y-auto"
+            style={{ maxHeight: 'calc(100dvh - 56px)', animation: 'dropDown 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
           >
-            <div className="max-w-lg mx-auto px-4 py-5 space-y-6">
-
-              {/* 섹션 1: 캠프별 바로가기 */}
-              <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">캠프 선택</p>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {displayCamps.map((camp) => (
-                    <Link
-                      key={camp.id}
-                      href={`/${client}/camp/${camp.id}`}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-xl p-3 transition-all duration-150 active:scale-[0.97]"
-                    >
-                      <span className="text-2xl flex-shrink-0">{camp.emoji}</span>
-                      <div className="min-w-0">
-                        <div className="font-bold text-gray-900 text-xs leading-tight truncate">{camp.name.replace('SMIS ', '')}</div>
-                        <div className="text-xs text-gray-500 mt-0.5">{camp.target}</div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+            <div className="max-w-lg mx-auto px-4 py-5">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-5">
+                {DRAWER_MENU.map((group) => (
+                  <div key={group.title}>
+                    <p className="text-xs font-semibold text-gray-400 mb-2 leading-tight">{group.title}</p>
+                    <div className="border-t border-gray-100 mb-2" />
+                    <ul className="space-y-2">
+                      {group.links.map((link) => (
+                        <li key={link.section}>
+                          <Link
+                            href={`/${client}/camp/${group.campId ?? 'je'}/${link.section}`}
+                            onClick={() => setIsMenuOpen(false)}
+                            className="block text-sm text-gray-700 hover:text-blue-600 transition-colors py-0.5 leading-tight"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
 
-              {/* 구분선 */}
-              <div className="border-t border-gray-100" />
-
-              {/* 섹션 2: 캠프 상세 정보 (첫 번째 캠프 기준 링크) */}
-              <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">상세 정보</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {COMMON_MENU_ITEMS.map((item) => (
-                    <Link
-                      key={item.id}
-                      href={`/${client}/camp/${displayCamps[0]?.id ?? 'je'}/${item.id}`}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-2.5 bg-gray-50 hover:bg-blue-50 border border-gray-100 hover:border-blue-200 rounded-xl px-3 py-2.5 transition-all duration-150 active:scale-[0.97]"
-                    >
-                      <span className="text-lg flex-shrink-0">{item.icon}</span>
-                      <div className="min-w-0">
-                        <div className="font-semibold text-gray-900 text-xs leading-tight">{item.label}</div>
-                        <div className="text-xs text-gray-400 leading-tight truncate">{item.desc}</div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                {displayCamps.length > 1 && (
-                  <p className="text-xs text-gray-400 mt-2 text-center">
-                    ※ 상세 정보는 {displayCamps[0]?.name} 기준입니다
-                  </p>
-                )}
-              </div>
-
-              {/* 하단 여백 */}
-              <div className="h-2" />
+              {/* 상담 신청 버튼 */}
+              <a
+                href={`tel:${clientInfo?.contactPhone || '010-3179-4282'}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-md"
+              >
+                <Phone className="w-4 h-4" />
+                지금 바로 상담 신청하기
+              </a>
             </div>
           </div>
         )}
       </header>
 
-      {/* 드롭다운 열릴 때 배경 딤 (헤더 외부 클릭 닫기) */}
+      {/* 외부 클릭 닫기 레이어 */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 z-40"
-          style={{ top: '56px' }}
           onClick={() => setIsMenuOpen(false)}
         />
       )}
 
       <style jsx global>{`
         @keyframes dropDown {
-          from { opacity: 0; transform: translateY(-8px); }
+          from { opacity: 0; transform: translateY(-6px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>

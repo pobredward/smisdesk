@@ -4,7 +4,45 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Plus, X, Phone } from 'lucide-react';
-import { CAMP_SECTIONS } from '@/components/camp/CampSectionButtons';
+
+const DRAWER_MENU = [
+  {
+    title: 'SMIS란',
+    campId: null,
+    links: [
+      { label: '회사 연혁', section: 'overview' },
+      { label: '최고의 강사진', section: 'mentors' },
+      { label: '빈틈없는 학생 관리', section: 'management' },
+    ],
+  },
+  {
+    title: '프리미엄 제주캠프',
+    campId: 'je',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
+  {
+    title: '싱가포르&말레이시아 주니어 캠프',
+    campId: 's',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
+  {
+    title: '말레이시아 가족캠프',
+    campId: 'f',
+    links: [
+      { label: '일정표 + 프로그램', section: 'schedule' },
+      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '사진 및 영상', section: 'gallery' },
+    ],
+  },
+];
 
 interface CampHeaderProps {
   clientId: string;
@@ -35,7 +73,7 @@ export default function CampHeader({ clientId, campId, campName, contactPhone }:
 
   return (
     <>
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 md:h-16">
 
@@ -88,80 +126,64 @@ export default function CampHeader({ clientId, campId, campName, contactPhone }:
             </div>
           </div>
         </div>
-      </nav>
 
-      {/* 드로어 오버레이 */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-end">
-          {/* 배경 딤 */}
+        {/* 드롭다운 패널 — 헤더 바로 아래 */}
+        {isMenuOpen && (
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={() => setIsMenuOpen(false)}
-          />
-
-          {/* 드로어 패널 — 하단에서 슬라이드업 */}
-          <div
-            className="relative bg-white rounded-t-3xl shadow-2xl max-h-[80vh] overflow-y-auto"
-            style={{ animation: 'slideUpDrawer 0.25s ease-out' }}
+            className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-xl rounded-b-2xl overflow-y-auto"
+            style={{ maxHeight: 'calc(100dvh - 56px)', animation: 'dropDown 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
           >
-            {/* 드래그 핸들 */}
-            <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 bg-gray-300 rounded-full" />
-            </div>
-
-            {/* 드로어 헤더 */}
-            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
-              <div>
-                <h2 className="text-base font-bold text-gray-900">상세 정보 바로가기</h2>
-                <p className="text-xs text-gray-500 mt-0.5">궁금한 항목을 선택하세요</p>
-              </div>
-              <button
-                onClick={() => setIsMenuOpen(false)}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                aria-label="닫기"
-              >
-                <X className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-
-            {/* 섹션 리스트 */}
-            <div className="p-4 pb-10">
-              <div className="grid grid-cols-2 gap-2.5">
-                {CAMP_SECTIONS.map((section) => (
-                  <Link
-                    key={section.id}
-                    href={`/${clientId}/camp/${campId}/${section.id}`}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center gap-3 ${section.bgColor} border rounded-xl p-3.5 transition-all duration-200 hover:shadow-md active:scale-95`}
-                  >
-                    <div className={`${section.color} flex-shrink-0`}>
-                      <div className="w-5 h-5">{section.icon}</div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-5">
+                {DRAWER_MENU.map((group) => {
+                  const resolvedCampId = group.campId ?? campId;
+                  return (
+                    <div key={group.title}>
+                      <p className="text-xs font-semibold text-gray-400 mb-2 leading-tight">{group.title}</p>
+                      <div className="border-t border-gray-100 mb-2" />
+                      <ul className="space-y-2">
+                        {group.links.map((link) => (
+                          <li key={link.section}>
+                            <Link
+                              href={`/${clientId}/camp/${resolvedCampId}/${link.section}`}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="block text-sm text-gray-700 hover:text-blue-600 transition-colors py-0.5 leading-tight"
+                            >
+                              {link.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-gray-900 text-sm leading-tight">{section.label}</div>
-                      <div className="text-xs text-gray-500 leading-tight mt-0.5 line-clamp-1">{section.description}</div>
-                    </div>
-                  </Link>
-                ))}
+                  );
+                })}
               </div>
 
-              {/* 드로어 내 상담 신청 버튼 */}
+              {/* 상담 신청 버튼 */}
               <button
                 onClick={() => { setIsMenuOpen(false); handleConsult(); }}
-                className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-md"
+                className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-md"
               >
                 <Phone className="w-4 h-4" />
                 지금 바로 상담 신청하기
               </button>
             </div>
           </div>
-        </div>
+        )}
+      </nav>
+
+      {/* 외부 클릭 닫기 레이어 */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsMenuOpen(false)}
+        />
       )}
 
       <style jsx global>{`
-        @keyframes slideUpDrawer {
-          from { transform: translateY(100%); }
-          to { transform: translateY(0); }
+        @keyframes dropDown {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </>

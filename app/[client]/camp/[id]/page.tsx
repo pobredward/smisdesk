@@ -7,7 +7,6 @@ import AdaptiveBottomBar from '@/components/AdaptiveBottomBar';
 import { useClients } from '@/lib/hooks/useClients';
 import { useState, useEffect } from 'react';
 import CampHeader from '@/components/camp/CampHeader';
-import CampSectionButtons from '@/components/camp/CampSectionButtons';
 import CampHeroSection from '@/components/camp/CampHeroSection';
 import Link from 'next/link';
 
@@ -53,22 +52,22 @@ export default function ClientCampDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-gray-50">
-      {/* 네비게이션 헤더 */}
-      <CampHeader clientId={client} />
-
-      {/* 섹션 버튼들 */}
-      <CampSectionButtons campId={id} clientId={client} />
+    <div className="min-h-screen bg-white">
+      {/* Speak 스타일 헤더 (로고 + + 버튼 + 상담 신청) */}
+      <CampHeader
+        clientId={client}
+        campId={id}
+        campName={camp.name}
+        contactPhone={clientInfo?.contactPhone}
+      />
 
       {/* 캠프 Hero 섹션 */}
-      <CampHeroSection camp={camp} />
-
+      <CampHeroSection camp={camp} clientId={client} />
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 mt-20 mb-20">
+      <footer className="bg-gray-900 text-gray-400 mt-16 mb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid md:grid-cols-3 gap-8 mb-6">
-            {/* 회사 정보 */}
             <div>
               <h3 className="text-white font-bold text-base mb-3">회사 정보</h3>
               <div className="space-y-1 text-xs">
@@ -77,14 +76,11 @@ export default function ClientCampDetailPage({
                 <p>법인사업자 등록번호: 427-88-03423</p>
                 <p>주소: 경기 성남시 분당구 장미로 78 SMIS 312호</p>
                 {clientInfo?.customTexts?.contactInfo && (
-                  <p>
-                    {clientInfo.customTexts.contactInfo}
-                  </p>
+                  <p>{clientInfo.customTexts.contactInfo}</p>
                 )}
               </div>
             </div>
 
-            {/* 법률 문서 */}
             <div>
               <h3 className="text-white font-bold text-base mb-3">법률 문서</h3>
               <ul className="space-y-1 text-xs">
@@ -101,39 +97,23 @@ export default function ClientCampDetailPage({
               </ul>
             </div>
 
-            {/* 소셜 링크 */}
             <div>
               <h3 className="text-white font-bold text-base mb-3">소셜 링크</h3>
               <ul className="space-y-1 text-xs">
                 <li>
-                  <a 
-                    href="https://www.youtube.com/@smiscamp" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors flex items-center gap-1"
-                  >
+                  <a href="https://www.youtube.com/@smiscamp" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     <span>유튜브 채널</span>
                     <span className="text-xs">↗</span>
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="https://pf.kakao.com/_Axafxcb/chat" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors flex items-center gap-1"
-                  >
+                  <a href="https://pf.kakao.com/_Axafxcb/chat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     <span>카카오톡 채널</span>
                     <span className="text-xs">↗</span>
                   </a>
                 </li>
                 <li>
-                  <a 
-                    href="https://www.smisedu.com/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors flex items-center gap-1"
-                  >
+                  <a href="https://www.smisedu.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1">
                     <span>공식 홈페이지</span>
                     <span className="text-xs">↗</span>
                   </a>

@@ -2,85 +2,128 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { MapPin, Users, Calendar, DollarSign } from 'lucide-react';
+import { MapPin, Users, Calendar, DollarSign, Phone, CheckCircle2 } from 'lucide-react';
 import { LOCATIONS } from '@/lib/types';
 
 interface CampHeroSectionProps {
   camp: typeof LOCATIONS[number];
+  clientId?: string;
 }
 
-export default function CampHeroSection({ camp }: CampHeroSectionProps) {
+const CAMP_HIGHLIGHTS: Record<string, string[]> = {
+  je: [
+    '영어·인문학·STEAM 통합 교육 커리큘럼',
+    '원어민 교사와 함께하는 생활 밀착형 영어',
+    '24시간 담임제 안전 생활 관리',
+  ],
+  s: [
+    '싱가포르·말레이시아 현지 글로벌 환경',
+    '영어·STEAM·드림멘토링 통합 프로그램',
+    '포레스트 시티 리조트 프리미엄 숙소',
+  ],
+  f: [
+    '온 가족이 함께하는 한 달 살기 경험',
+    '아이·부모 분리 운영으로 각자 성장',
+    '라마다 호텔 숙박 · 가족 단위 케어',
+  ],
+};
+
+export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps) {
+  const highlights = CAMP_HIGHLIGHTS[camp.id] ?? [];
+
+  const handleConsultClick = () => {
+    const phoneNumber = '010-3179-4282';
+    window.location.href = `tel:${phoneNumber}`;
+  };
+
   return (
-    <section className="bg-gray-50">
+    <section className="bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-          {/* 캠프 정보 */}
-          <div className="space-y-6">
-            {/* 헤더 */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="text-5xl md:text-6xl">{camp.emoji}</div>
-                <div className="flex-1 min-w-0">
-                  <h1 className="text-2xl md:text-4xl font-bold text-gray-900">{camp.name}</h1>
-                  <p className="text-lg md:text-xl text-gray-600 mt-1">{camp.subtitle}</p>
-                </div>
-              </div>
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
+          {/* 캠프 이미지 — 모바일에서 먼저 */}
+          <div className="relative order-first lg:order-last">
+            <div className="relative aspect-[16/10] md:aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-200">
+              <CampHeroImage campId={camp.id} campName={camp.name} campEmoji={camp.emoji} />
             </div>
-            
-            {/* 설명 */}
-            <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-              {camp.description}
-            </p>
+          </div>
 
-            {/* 캠프 기본 정보 - 심플한 디자인 */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 text-gray-600" />
+          {/* 캠프 정보 */}
+          <div className="space-y-5 order-last lg:order-first">
+            {/* 헤더 */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-4xl">{camp.emoji}</span>
+                <div>
+                  <h1 className="text-xl md:text-3xl font-bold text-gray-900 leading-tight">{camp.name}</h1>
+                  <p className="text-sm md:text-base text-blue-600 font-medium mt-0.5">{camp.subtitle}</p>
+                </div>
+              </div>
+              <p className="text-sm md:text-base text-gray-600 leading-relaxed">{camp.description}</p>
+            </div>
+
+            {/* 프로그램 핵심 포인트 */}
+            {highlights.length > 0 && (
+              <div className="bg-blue-50 rounded-xl p-4 space-y-2">
+                {highlights.map((point, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-800 leading-snug">{point}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 캠프 기본 정보 */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-gray-500 flex-shrink-0" />
                   <div>
-                    <div className="text-sm text-gray-500">참가 대상</div>
-                    <div className="font-semibold text-gray-900">{camp.target}</div>
+                    <div className="text-xs text-gray-500">참가 대상</div>
+                    <div className="font-semibold text-gray-900 text-sm">{camp.target}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-gray-600" />
+              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-gray-500 flex-shrink-0" />
                   <div>
-                    <div className="text-sm text-gray-500">캠프 장소</div>
-                    <div className="font-semibold text-gray-900">{camp.location}</div>
+                    <div className="text-xs text-gray-500">캠프 장소</div>
+                    <div className="font-semibold text-gray-900 text-sm leading-tight">{camp.location}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-gray-600" />
+              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-gray-500 flex-shrink-0" />
                   <div>
-                    <div className="text-sm text-gray-500">진행 기간</div>
+                    <div className="text-xs text-gray-500">진행 기간</div>
                     <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.period}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center gap-3">
-                  <DollarSign className="w-5 h-5 text-gray-600" />
+              <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-gray-500 flex-shrink-0" />
                   <div>
-                    <div className="text-sm text-gray-500">참가비</div>
+                    <div className="text-xs text-gray-500">참가비</div>
                     <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.price}</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* 캠프 이미지 - 심플한 디자인 */}
-          <div className="relative order-first lg:order-last">
-            <div className="relative aspect-[16/10] md:aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-gray-200">
-              <CampHeroImage campId={camp.id} campName={camp.name} campEmoji={camp.emoji} />
-            </div>
+            {/* 상담 신청 CTA */}
+            <button
+              onClick={handleConsultClick}
+              className="w-full flex items-center justify-center gap-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-base"
+            >
+              <Phone className="w-4 h-4" />
+              지금 바로 상담 신청하기
+            </button>
           </div>
         </div>
       </div>

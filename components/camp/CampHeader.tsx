@@ -11,7 +11,7 @@ const DRAWER_MENU = [
     campId: null,
     links: [
       { label: '브랜드 스토리', section: 'brand', href: 'brand' as const },
-      { label: '최고의 강사진', section: 'teachers' },
+      { label: '최고의 강사진', section: 'teachers', href: 'teachers' as const },
       { label: '빈틈없는 학생 관리', section: 'management' },
     ],
   },

@@ -364,22 +364,22 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
             <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
               <Users className="w-3.5 h-3.5 text-yellow-300" />
               <span className="font-bold text-yellow-300">6,000+</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>수료</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 수료</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
               <Repeat className="w-3.5 h-3.5 text-green-300" />
               <span className="font-bold text-green-300">40%+</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>재등록</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)' }}>학생 재등록</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
               <Shield className="w-3.5 h-3.5 text-purple-300" />
               <span className="font-bold text-purple-300">업계 최초</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>특허</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)' }}>교육 프로그램 특허</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm">
               <Award className="w-3.5 h-3.5 text-orange-300" />
               <span className="font-bold text-orange-300">17년</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)' }}>노하우</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)' }}>운영 노하우</span>
             </div>
           </div>
 
@@ -456,64 +456,37 @@ export default function ClientPage({ params }: { params: Promise<{ client: strin
       </div>
       </section>
 
-      {/* ── [3] 신뢰 지표 섹션 ── */}
-      <div className="bg-white">
-        <div className="max-w-lg mx-auto px-4 py-10">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
-              숫자로 증명하는 SMIS의 신뢰
-            </h2>
-            <p className="text-gray-500 text-sm">17년간 쌓아온 성과와 학부모의 선택</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full mb-3">
-                <Users className="w-5 h-5 text-blue-600" />
-              </div>
-              <div className="text-2xl font-extrabold text-gray-900 mb-1">6,000+</div>
-              <div className="text-sm font-semibold text-gray-700 mb-1">학생 수료</div>
-              <p className="text-xs text-gray-500 leading-tight">17년간 수료한 누적 학생 수</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-green-100 rounded-full mb-3">
-                <Repeat className="w-5 h-5 text-green-600" />
-              </div>
-              <div className="text-2xl font-extrabold text-gray-900 mb-1">40%+</div>
-              <div className="text-sm font-semibold text-gray-700 mb-1">재등록률</div>
-              <p className="text-xs text-gray-500 leading-tight">한 번 보낸 학부모가 다시 찾는 캠프</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 rounded-full mb-3">
-                <Shield className="w-5 h-5 text-purple-600" />
-              </div>
-              <div className="text-2xl font-extrabold text-gray-900 mb-1">업계 최초</div>
-              <div className="text-sm font-semibold text-gray-700 mb-1">교육특허 출원</div>
-              <p className="text-xs text-gray-500 leading-tight">독자적 교육 커리큘럼 특허 출원</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-orange-100 rounded-full mb-3">
-                <Award className="w-5 h-5 text-orange-600" />
-              </div>
-              <div className="text-2xl font-extrabold text-gray-900 mb-1">17년</div>
-              <div className="text-sm font-semibold text-gray-700 mb-1">운영 역사</div>
-              <p className="text-xs text-gray-500 leading-tight">2008년부터 이어온 전통과 노하우</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── [4] 영상 섹션 ── */}
+      {/* ── [3] 영상 섹션 ── */}
       <div className="bg-gray-50">
         <div className="max-w-lg mx-auto px-4 py-10">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">캠프 현장을 직접 확인하세요</h2>
-            <p className="text-gray-500 text-sm">아이들의 생생한 캠프 생활</p>
+            <h2 className="text-xl font-bold text-gray-900 mb-1">SMIS 브랜드 필름</h2>
+            <p className="text-gray-500 text-sm">SMIS의 교육 철학을 담은 브랜드 영상</p>
           </div>
-          <div className="relative overflow-hidden rounded-2xl shadow-xl" style={{ aspectRatio: '16/9' }}>
+          {/* 모바일: 9:16 세로 비율 / 데스크탑: 16:9 가로 비율 */}
+          <div
+            className="relative overflow-hidden rounded-2xl shadow-xl md:hidden"
+            style={{ aspectRatio: '9/16' }}
+          >
+            {(desktopVideoUrl || mobileVideoUrl) ? (
+              <ResponsiveHeroVideo
+                desktopVideoUrl={desktopVideoUrl}
+                mobileVideoUrl={mobileVideoUrl}
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center">
+                <div className="text-center text-white px-4">
+                  <div className="text-4xl mb-3">🎬</div>
+                  <h3 className="text-lg font-bold mb-2">영상 준비중</h3>
+                  <p className="text-xs text-blue-100 leading-relaxed">곧 캠프 영상을 공개할 예정입니다</p>
+                </div>
+              </div>
+            )}
+          </div>
+          <div
+            className="relative overflow-hidden rounded-2xl shadow-xl hidden md:block"
+            style={{ aspectRatio: '16/9' }}
+          >
             {(desktopVideoUrl || mobileVideoUrl) ? (
               <ResponsiveHeroVideo 
                 desktopVideoUrl={desktopVideoUrl} 

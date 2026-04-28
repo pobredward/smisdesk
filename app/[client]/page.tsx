@@ -81,7 +81,7 @@ const DRAWER_MENU = [
     title: 'SMIS란',
     campId: null as string | null,
     links: [
-      { label: '회사 연혁', section: 'overview' },
+      { label: '브랜드 스토리', section: 'brand', href: 'brand' },
       { label: '최고의 강사진', section: 'mentors' },
       { label: '빈틈없는 학생 관리', section: 'management' },
     ],
@@ -190,7 +190,7 @@ function MobileHeader({
                       {group.links.map((link) => (
                         <li key={link.section}>
                           <Link
-                            href={`/${client}/camp/${group.campId ?? 'je'}/${link.section}`}
+                            href={'href' in link ? `/${client}/${link.href}` : `/${client}/camp/${group.campId ?? 'je'}/${link.section}`}
                             onClick={() => setIsMenuOpen(false)}
                             className="block text-sm text-gray-700 hover:text-blue-600 transition-colors py-0.5 leading-tight"
                           >

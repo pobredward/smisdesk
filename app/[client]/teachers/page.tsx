@@ -2,13 +2,13 @@
 
 /**
  * Teachers Page — 최고의 강사진
- * 컬러 팔레트
- * Deep Navy  : #071B3A
- * Gold       : #F4B400
- * Ivory      : #FFFDF7
- * Light Blue : #EAF3FF
- * Text       : #111827
- * Sub Text   : #6B7280
+ * 컬러 팔레트 (브랜드 스토리 통일)
+ * Primary    : #3f39c4  (딥 인디고)
+ * Dark       : #1e1a6e  (다크 네이비)
+ * Light bg   : #EEF2FF  (라벤더 화이트)
+ * Soft       : #c7d2fe  (소프트 인디고)
+ * Accent     : #fbbf24  (앰버 옐로우)
+ * Text       : #111827  (딥 다크)
  */
 
 import { use, useState, useEffect } from 'react';
@@ -21,10 +21,10 @@ import StickyBottomBar from '@/components/StickyBottomBar';
 
 // ─── 상수 ────────────────────────────────────────────────────────────────────
 
-const NAVY = '#071B3A';
-const GOLD = '#F4B400';
-const IVORY = '#FFFDF7';
-const LIGHT_BLUE = '#EAF3FF';
+const NAVY = '#1e1a6e';
+const GOLD = '#fbbf24';
+const IVORY = '#EEF2FF';
+const LIGHT_BLUE = '#EEF2FF';
 
 // ─── 헤더 ────────────────────────────────────────────────────────────────────
 
@@ -43,7 +43,7 @@ function TeachersHeader({ client }: { client: string }) {
       links: [
         { label: '브랜드 스토리', section: 'brand', href: 'brand' },
         { label: '최고의 강사진', section: 'teachers', href: 'teachers' },
-        { label: '빈틈없는 학생 관리', section: 'management' },
+        { label: '빈틈없는 학생 관리', section: 'management', href: 'management' },
       ],
     },
     {
@@ -173,7 +173,7 @@ function HeroSection({ client }: { client: string }) {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #0d2d5e 60%, #102040 100%)`, minHeight: '100svh' }}
+      style={{ background: `linear-gradient(160deg, #1e1a6e 0%, #3f39c4 55%, #2d28a0 100%)`, minHeight: '100svh' }}
     >
       {/* 배경 광원 효과 */}
       <div className="absolute inset-0 pointer-events-none">
@@ -183,7 +183,7 @@ function HeroSection({ client }: { client: string }) {
         />
         <div
           className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10"
-          style={{ background: `radial-gradient(ellipse, #60a5fa 0%, transparent 70%)`, transform: 'translate(-30%, 30%)' }}
+          style={{ background: `radial-gradient(ellipse, #818cf8 0%, transparent 70%)`, transform: 'translate(-30%, 30%)' }}
         />
       </div>
 
@@ -243,7 +243,7 @@ function HeroSection({ client }: { client: string }) {
             />
             {/* 이미지 fallback */}
             <div className="absolute inset-0 flex flex-col items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, #0d2d5e 0%, #1a3a6b 100%)' }}>
+              style={{ background: 'linear-gradient(135deg, #1e1a6e 0%, #3f39c4 100%)' }}>
               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
                 style={{ background: `rgba(244,180,0,0.2)`, border: `2px solid ${GOLD}` }}>
                 <span className="text-2xl">🎓</span>
@@ -344,7 +344,7 @@ function SMISAnswerSection() {
   ];
 
   return (
-    <section className="py-16 md:py-20 px-5" style={{ background: NAVY }}>
+    <section className="py-16 md:py-20 px-5" style={{ background: 'linear-gradient(160deg, #1e1a6e 0%, #3f39c4 100%)' }}>
       <div className="max-w-2xl mx-auto text-white">
         <p className="text-xs font-bold tracking-widest mb-3" style={{ color: GOLD }}>SMIS STANDARD</p>
         <h2 className="text-2xl md:text-3xl font-black leading-tight mb-6">
@@ -484,7 +484,7 @@ function NativeTeacherSection() {
   ];
 
   return (
-    <section id="native-teacher" className="py-16 md:py-20 px-5" style={{ background: NAVY }}>
+    <section id="native-teacher" className="py-16 md:py-20 px-5" style={{ background: 'linear-gradient(160deg, #2d28a0 0%, #1e1a6e 100%)' }}>
       <div className="max-w-3xl mx-auto">
         {/* 섹션 헤더 */}
         <div className="mb-10">
@@ -663,13 +663,13 @@ function IntegratedPlatformSection() {
         <div className="grid grid-cols-3 gap-3 mb-10">
           {['지원자 관리', '단계 트래킹', '수업 배정'].map((label) => (
             <div key={label} className="rounded-2xl overflow-hidden aspect-[9/16] relative flex flex-col"
-              style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #e8eeff 100%)', border: '1px solid #dde3f0' }}>
+              style={{ background: 'linear-gradient(160deg, #EEF2FF 0%, #e0e7ff 100%)', border: '1px solid #c7d2fe' }}>
               <div className="flex-1 flex items-center justify-center p-2">
                 <div className="w-full h-full rounded-xl flex flex-col gap-1.5 p-1.5"
-                  style={{ background: 'rgba(7,27,58,0.06)' }}>
+                  style={{ background: 'rgba(63,57,196,0.08)' }}>
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} className="rounded-md h-3"
-                      style={{ background: i === 0 ? GOLD : 'rgba(7,27,58,0.1)', opacity: i === 0 ? 0.8 : 1 }} />
+                      style={{ background: i === 0 ? GOLD : 'rgba(63,57,196,0.12)', opacity: i === 0 ? 0.8 : 1 }} />
                   ))}
                 </div>
               </div>
@@ -786,7 +786,7 @@ function RehearsalSection() {
         </p>
 
         <div className="rounded-2xl p-5 mb-8"
-          style={{ background: LIGHT_BLUE, border: `1px solid #c7d7f0` }}>
+          style={{ background: LIGHT_BLUE, border: `1px solid #c7d2fe` }}>
           <p className="text-xs font-bold mb-4" style={{ color: NAVY }}>리허설에서 확인하는 것</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {checks.map((c, i) => (
@@ -875,7 +875,7 @@ function FieldOperationSection() {
 
 function FinalCTASection({ client }: { client: string }) {
   return (
-    <section className="py-16 md:py-20 px-5" style={{ background: NAVY }}>
+    <section className="py-16 md:py-20 px-5" style={{ background: 'linear-gradient(160deg, #1e1a6e 0%, #3f39c4 100%)' }}>
       <div className="max-w-lg mx-auto text-center text-white">
         <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-bold"
           style={{ background: 'rgba(244,180,0,0.15)', border: `1px solid ${GOLD}`, color: GOLD }}>
@@ -930,7 +930,7 @@ function FinalCTASection({ client }: { client: string }) {
 
 function Footer({ client }: { client: string }) {
   return (
-    <footer className="py-12 px-5" style={{ background: '#050f1f' }}>
+    <footer className="py-12 px-5" style={{ background: '#0f0d3a' }}>
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <Image src="/logo-circle-blue.png" alt="SMIS" width={36} height={36} className="w-9 h-9 object-contain" />
@@ -996,7 +996,7 @@ export default function TeachersPage({ params }: { params: Promise<{ client: str
 
   if (loading || isChecking) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: NAVY }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#1e1a6e' }}>
         <div className="text-center">
           <div
             className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 animate-pulse"

@@ -90,8 +90,8 @@ const DRAWER_MENU = [
     title: '프리미엄 제주캠프',
     campId: 'je',
     links: [
-      { label: '일정표 + 프로그램', section: 'schedule' },
-      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '일정표 및 프로그램', section: 'schedule' },
+      { label: '시설 및 환경 소개', section: 'environment' },
       { label: '사진 및 영상', section: 'gallery' },
     ],
   },
@@ -99,8 +99,8 @@ const DRAWER_MENU = [
     title: '싱가포르&말레이시아 주니어 캠프',
     campId: 's',
     links: [
-      { label: '일정표 + 프로그램', section: 'schedule' },
-      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '일정표 및 프로그램', section: 'schedule' },
+      { label: '시설 및 환경 소개', section: 'environment' },
       { label: '사진 및 영상', section: 'gallery' },
     ],
   },
@@ -108,8 +108,8 @@ const DRAWER_MENU = [
     title: '말레이시아 가족캠프',
     campId: 'f',
     links: [
-      { label: '일정표 + 프로그램', section: 'schedule' },
-      { label: '시설 + 환경 소개', section: 'environment' },
+      { label: '일정표 및 프로그램', section: 'schedule' },
+      { label: '시설 및 환경 소개', section: 'environment' },
       { label: '사진 및 영상', section: 'gallery' },
     ],
   },
@@ -205,7 +205,7 @@ function MobileHeader({
 
               {/* 상담 신청 버튼 */}
               {/* <a
-                href={`tel:${clientInfo?.contactPhone || '010-3179-4282'}`}
+                href={`tel:${clientInfo?.contactPhone || '010-6711-7933'}`}
                 onClick={() => setIsMenuOpen(false)}
                 className="mt-6 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-md"
               >

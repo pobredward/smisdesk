@@ -97,8 +97,8 @@ export default function Home() {
           <p className="text-sm text-gray-600 mb-4">비밀번호를 잊으셨나요?</p>
           <p className="text-xs text-gray-500">
             관리자에게 문의하세요: 
-            <a href="tel:010-3179-4282" className="text-blue-600 hover:text-blue-700 ml-1">
-              010-3179-4282
+            <a href="tel:010-6711-7933" className="text-blue-600 hover:text-blue-700 ml-1">
+              010-6711-7933
             </a>
           </p>
         </div>

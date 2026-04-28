@@ -154,13 +154,13 @@ export default function ClientCampSectionPage({
           <h2 className="text-2xl font-bold mb-6 text-center">문의하기</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <a
-              href="tel:010-3179-4282"
+              href="tel:010-6711-7933"
               className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
             >
               <Phone className="w-6 h-6" />
               <div>
                 <div className="font-semibold">전화 문의</div>
-                <div className="text-sm text-blue-100">010-3179-4282</div>
+                <div className="text-sm text-blue-100">010-6711-7933</div>
               </div>
             </a>
             <a

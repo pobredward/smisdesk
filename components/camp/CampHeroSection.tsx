@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { MapPin, Users, Calendar, DollarSign, Phone, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Calendar, Home, Camera, ChevronRight } from 'lucide-react';
 import { LOCATIONS } from '@/lib/types';
 
 interface CampHeroSectionProps {
@@ -12,29 +13,24 @@ interface CampHeroSectionProps {
 
 const CAMP_HIGHLIGHTS: Record<string, string[]> = {
   je: [
-    '영어·인문학·STEAM 통합 교육 커리큘럼',
+    '영어·인문학(한국사)·STEAM 통합 교육 커리큘럼',
     '원어민 교사와 함께하는 생활 밀착형 영어',
     '24시간 담임제 안전 생활 관리',
   ],
   s: [
-    '싱가포르·말레이시아 현지 글로벌 환경',
-    '영어·STEAM·드림멘토링 통합 프로그램',
-    '포레스트 시티 리조트 프리미엄 숙소',
+    '싱가포르·말레이시아 글로벌 영어 노출 환경',
+    '영어·인문학(세계사)·IB 통합 교육 커리큘럼',
+    '5성급 포레스트 시티 프리미엄 리조트',
   ],
   f: [
-    '온 가족이 함께하는 한 달 살기 경험',
-    '아이·부모 분리 운영으로 각자 성장',
-    '라마다 호텔 숙박 · 가족 단위 케어',
+    '숙박/식사/청소/세탁 All IN ONE SYSTEM',
+    '말레이시아 가족캠프 유일 영미권 원어민 수업',
+    '부모님들을 힐링을 위한 양질의 프로그램 안내',
   ],
 };
 
 export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps) {
   const highlights = CAMP_HIGHLIGHTS[camp.id] ?? [];
-
-  const handleConsultClick = () => {
-    const phoneNumber = '010-3179-4282';
-    window.location.href = `tel:${phoneNumber}`;
-  };
 
   return (
     <section className="bg-white border-b border-gray-100">
@@ -51,14 +47,8 @@ export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps
           <div className="space-y-5">
             {/* 헤더 */}
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-4xl">{camp.emoji}</span>
-                <div>
-                  <h1 className="text-xl md:text-3xl font-bold text-gray-900 leading-tight">{camp.name}</h1>
-                  <p className="text-sm md:text-base text-blue-600 font-medium mt-0.5">{camp.subtitle}</p>
-                </div>
-              </div>
-              <p className="text-sm md:text-base text-gray-600 leading-relaxed">{camp.description}</p>
+              <h1 className="text-xl md:text-3xl font-bold text-gray-900 leading-tight mb-1">{camp.name}</h1>
+              <p className="text-sm md:text-base text-blue-600 font-medium">{camp.subtitle}</p>
             </div>
 
             {/* 프로그램 핵심 포인트 */}
@@ -73,57 +63,52 @@ export default function CampHeroSection({ camp, clientId }: CampHeroSectionProps
               </div>
             )}
 
+            {/* 섹션 퀵링크 */}
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'schedule',    label: '일정표',   icon: <Calendar className="w-5 h-5" />,  color: 'text-orange-500', bg: 'bg-orange-50' },
+                { id: 'environment', label: '시설환경', icon: <Home className="w-5 h-5" />,      color: 'text-teal-500',   bg: 'bg-teal-50'   },
+                { id: 'gallery',     label: '활동사진', icon: <Camera className="w-5 h-5" />,    color: 'text-yellow-500', bg: 'bg-yellow-50' },
+              ].map(({ id, label, icon, color, bg }) => (
+                <Link
+                  key={id}
+                  href={clientId ? `/${clientId}/camp/${camp.id}/${id}` : `/camp/${camp.id}/${id}`}
+                  className="flex flex-col items-center gap-2 py-4 px-2 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 active:scale-95 transition-all duration-150"
+                >
+                  <div className={`${bg} ${color} rounded-lg p-2`}>
+                    {icon}
+                  </div>
+                  <span className="flex items-center gap-0.5 text-xs font-bold text-gray-800">
+                    {label}
+                    <ChevronRight className="w-3 h-3 text-gray-400" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+
             {/* 캠프 기본 정보 */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs text-gray-500">참가 대상</div>
-                    <div className="font-semibold text-gray-900 text-sm">{camp.target}</div>
-                  </div>
-                </div>
+                <div className="text-xs text-gray-500 mb-1">참가 대상</div>
+                <div className="font-semibold text-gray-900 text-sm">{camp.target}</div>
               </div>
 
               <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs text-gray-500">캠프 장소</div>
-                    <div className="font-semibold text-gray-900 text-sm leading-tight">{camp.location}</div>
-                  </div>
-                </div>
+                <div className="text-xs text-gray-500 mb-1">캠프 장소</div>
+                <div className="font-semibold text-gray-900 text-sm leading-tight">{camp.location}</div>
               </div>
 
               <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs text-gray-500">진행 기간</div>
-                    <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.period}</div>
-                  </div>
-                </div>
+                <div className="text-xs text-gray-500 mb-1">진행 기간</div>
+                <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.period}</div>
               </div>
 
               <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                  <div>
-                    <div className="text-xs text-gray-500">참가비</div>
-                    <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.price}</div>
-                  </div>
-                </div>
+                <div className="text-xs text-gray-500 mb-1">참가비</div>
+                <div className="font-semibold text-gray-900 text-sm whitespace-pre-line">{camp.price}</div>
               </div>
             </div>
 
-            {/* 상담 신청 CTA */}
-            <button
-              onClick={handleConsultClick}
-              className="w-full flex items-center justify-center gap-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-base"
-            >
-              <Phone className="w-4 h-4" />
-              지금 바로 상담 신청하기
-            </button>
           </div>
         </div>
       </div>

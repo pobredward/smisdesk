@@ -12,7 +12,7 @@ export default function FloatingActions({ clientId }: FloatingActionsProps) {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleCall = () => {
-    window.location.href = 'tel:010-3179-4282';
+    window.location.href = 'tel:010-6711-7933';
   };
 
   const handleCloseChat = () => {

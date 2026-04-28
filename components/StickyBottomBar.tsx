@@ -20,7 +20,7 @@ export default function StickyBottomBar({ clientId }: StickyBottomBarProps) {
   }, [clients, clientId]);
 
   const handleCall = () => {
-    const phoneNumber = currentClient?.contactPhone || '010-3179-4282'; // 기본 번호
+    const phoneNumber = currentClient?.contactPhone || '010-6711-7933'; // 기본 번호
     window.location.href = `tel:${phoneNumber}`;
   };
 
@@ -111,7 +111,7 @@ export default function StickyBottomBar({ clientId }: StickyBottomBarProps) {
                   전화 문의
                 </span>
                 <span className="text-xs sm:text-sm opacity-90 leading-tight">
-                  {currentClient?.contactPhone || '010-3179-4282'}
+                  {currentClient?.contactPhone || '010-6711-7933'}
                 </span>
                 {currentClient?.callMessage && (
                   <span className="text-xs opacity-75 leading-tight hidden sm:block">

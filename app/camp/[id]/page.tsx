@@ -76,13 +76,13 @@ export default function CampDetailPage({ params }: { params: Promise<{ id: strin
           <h2 className="text-2xl font-bold mb-6 text-center">문의하기</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <a
-              href="tel:010-3179-4282"
+              href="tel:010-6711-7933"
               className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all"
             >
               <Phone className="w-6 h-6" />
               <div>
                 <div className="font-semibold">전화 문의</div>
-                <div className="text-sm text-blue-100">010-3179-4282</div>
+                <div className="text-sm text-blue-100">010-6711-7933</div>
               </div>
             </a>
             <a
@@ -112,9 +112,9 @@ export default function CampDetailPage({ params }: { params: Promise<{ id: strin
                 <p>법인사업자 등록번호: 427-88-03423</p>
                 <p>주소: 경기 성남시 분당구 장미로 78 SMIS 312호</p>
                 <p>
-                  상담 문의: 한종석{' '}
-                  <a href="tel:010-3179-4282" className="hover:text-white transition-colors">
-                    (010-3179-4282)
+                  상담 문의: 신선웅{' '}
+                  <a href="tel:010-6711-7933" className="hover:text-white transition-colors">
+                    (010-6711-7933)
                   </a>
                 </p>
               </div>

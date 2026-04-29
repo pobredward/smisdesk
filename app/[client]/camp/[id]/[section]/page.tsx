@@ -3,12 +3,12 @@
 import { use } from 'react';
 import { LOCATIONS } from '@/lib/types';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import AdaptiveBottomBar from '@/components/AdaptiveBottomBar';
 import { useClients } from '@/lib/hooks/useClients';
 import { useState, useEffect } from 'react';
 import { CAMP_SECTIONS } from '@/components/camp/CampSectionButtons';
+import CampHeader from '@/components/camp/CampHeader';
 
 // 탭 컴포넌트들을 동적 import
 import dynamic from 'next/dynamic';
@@ -76,7 +76,7 @@ export default function ClientCampSectionPage({
       case 'mentors':
         return <MentorsTab {...commonProps} />;
       case 'schedule':
-        return <ScheduleTab {...commonProps} />;
+        return <ScheduleTab {...commonProps} clientId={client} />;
       case 'environment':
         return <EnvironmentTab {...commonProps} />;
       case 'management':
@@ -92,18 +92,12 @@ export default function ClientCampSectionPage({
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link 
-            href={`/${client}/camp/${id}`} 
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>{camp.name}로 돌아가기</span>
-          </Link>
-        </div>
-      </nav>
+      <CampHeader
+        clientId={client}
+        campId={id}
+        campName={camp.name}
+        contactPhone={clientInfo?.contactPhone}
+      />
 
 
       {/* 섹션 콘텐츠 */}

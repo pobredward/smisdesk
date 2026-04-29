@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Plus, X, Phone } from 'lucide-react';
+import { Plus, X, Phone, ChevronRight } from 'lucide-react';
 
 const DRAWER_MENU = [
   {
@@ -126,7 +126,18 @@ export default function CampHeader({ clientId, campId, campName, contactPhone }:
                   const resolvedCampId = group.campId ?? campId;
                   return (
                     <div key={group.title}>
-                      <p className="text-xs font-semibold text-gray-400 mb-2 leading-tight">{group.title}</p>
+                      {group.campId ? (
+                        <Link
+                          href={`/${clientId}/camp/${group.campId}`}
+                          onClick={() => setIsMenuOpen(false)}
+                          className="flex items-center gap-0.5 text-xs font-semibold text-gray-400 mb-2 leading-tight hover:text-blue-600 transition-colors group/title"
+                        >
+                          <span>{group.title}</span>
+                          <ChevronRight className="w-3 h-3 flex-shrink-0 opacity-50 group-hover/title:opacity-100 transition-opacity" />
+                        </Link>
+                      ) : (
+                        <p className="text-xs font-semibold text-gray-400 mb-2 leading-tight">{group.title}</p>
+                      )}
                       <div className="border-t border-gray-100 mb-2" />
                       <ul className="space-y-2">
                         {group.links.map((link) => (

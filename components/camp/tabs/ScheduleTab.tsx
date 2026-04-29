@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 // ===== 타입 정의 =====
@@ -228,19 +228,30 @@ const dayTextMap: Record<DayColorType, { label: string; sublabel: string }> = {
 };
 
 const tabConfig = {
-  regular: { label: '정규 프로그램', color: 'purple', activeClass: 'bg-purple-600 text-white', inactiveClass: 'text-gray-600 hover:text-purple-600', rowHover: 'hover:bg-purple-50', arrow: 'text-purple-400' },
-  steam: { label: 'Growing (STEAM)', color: 'blue', activeClass: 'bg-blue-600 text-white', inactiveClass: 'text-gray-600 hover:text-blue-600', rowHover: 'hover:bg-blue-50', arrow: 'text-blue-400' },
-  exciting: { label: '익사이팅', color: 'orange', activeClass: 'bg-orange-500 text-white', inactiveClass: 'text-gray-600 hover:text-orange-500', rowHover: 'hover:bg-orange-50', arrow: 'text-orange-400' },
+  regular: { label: 'Regular Day', color: 'purple', activeClass: 'bg-purple-600 text-white', inactiveClass: 'text-gray-600 hover:text-purple-600', rowHover: 'hover:bg-purple-50', arrow: 'text-purple-400' },
+  steam: { label: 'STEAM Day', color: 'blue', activeClass: 'bg-blue-600 text-white', inactiveClass: 'text-gray-600 hover:text-blue-600', rowHover: 'hover:bg-blue-50', arrow: 'text-blue-400' },
+  exciting: { label: 'Exciting Day', color: 'orange', activeClass: 'bg-orange-500 text-white', inactiveClass: 'text-gray-600 hover:text-orange-500', rowHover: 'hover:bg-orange-50', arrow: 'text-orange-400' },
 } as const;
 
 type TabKey = keyof typeof tabConfig;
 
+const clickableTypes = new Set<DayColorType>(['regular', 'steam', 'exciting']);
+
 const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; clientId?: string }) => {
   const [activeTab, setActiveTab] = useState<TabKey>('regular');
   const router = useRouter();
+  const weeklyScheduleRef = useRef<HTMLDivElement>(null);
 
   const handleCellClick = (detailId: string) => {
     router.push(`/${clientId}/camp/${campId}/schedule/${detailId}`);
+  };
+
+  const handleCalendarCellClick = (colorType: DayColorType) => {
+    if (!clickableTypes.has(colorType)) return;
+    setActiveTab(colorType as TabKey);
+    setTimeout(() => {
+      weeklyScheduleRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 0);
   };
 
   const currentTab = tabConfig[activeTab];
@@ -322,10 +333,14 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
               }
               const weekBg = weekBgMap[day.week];
               const textColors = dayTextMap[day.colorType];
+              const isClickable = clickableTypes.has(day.colorType);
               return (
                 <div
                   key={day.date}
-                  className={`min-h-[72px] sm:min-h-[96px] p-1.5 sm:p-2 flex flex-col gap-0.5 ${weekBg}`}
+                  className={`min-h-[72px] sm:min-h-[96px] p-1.5 sm:p-2 flex flex-col gap-0.5 ${weekBg} ${
+                    isClickable ? 'cursor-pointer hover:brightness-95 transition-all' : ''
+                  }`}
+                  onClick={isClickable ? () => handleCalendarCellClick(day.colorType) : undefined}
                 >
                   <span className="text-[10px] sm:text-xs font-semibold text-gray-400">{day.date}</span>
                   <span className={`text-[9px] sm:text-[11px] leading-tight ${textColors.label}`}>
@@ -350,7 +365,7 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
       </section>
 
       {/* ===== 섹션 2: 주간 시간표 ===== */}
-      <section>
+      <section ref={weeklyScheduleRef}>
         <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
           {/* 헤더 */}
           <div className="bg-purple-50 py-4 text-center border-b border-purple-100">
@@ -377,7 +392,7 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
           {/* 부제 (주 횟수) */}
           <div className="text-center py-2 bg-white border-b border-gray-100">
             <span className="text-xs sm:text-sm font-semibold" style={{ color: activeTab === 'regular' ? '#7c3aed' : activeTab === 'steam' ? '#2563eb' : '#ea580c' }}>
-              {activeTab === 'regular' ? '정규 프로그램 (주 5일)' : activeTab === 'steam' ? 'Growing (STEAM) 프로그램 (주 1일)' : '익사이팅 프로그램 (주 1일)'}
+              {activeTab === 'regular' ? 'Regular Day 프로그램 (주 5일)' : activeTab === 'steam' ? 'STEAM Day 프로그램 (주 1일)' : 'Exciting Day 프로그램 (주 1일)'}
             </span>
           </div>
 

@@ -265,10 +265,10 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
       <section>
         {/* 구간 뱃지 — 네이비 배경, 모바일 포함 1행 */}
         <div className="bg-[#1e2d4a] rounded-2xl p-4 sm:p-5 mb-4">
-          <div className="flex flex-row gap-2 sm:gap-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {/* 1주차 재미구간 */}
-            <div className="flex-1 flex flex-col gap-1.5">
-              <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col items-start gap-0.5">
                 <span className="text-white font-bold text-xs sm:text-sm whitespace-nowrap">1주차</span>
                 <span className="bg-yellow-300 text-yellow-900 text-xs sm:text-sm font-bold px-2 py-0.5 rounded whitespace-nowrap">
                   재미(FUN)
@@ -280,8 +280,8 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
             </div>
 
             {/* 2주차 감동구간 */}
-            <div className="flex-1 flex flex-col gap-1.5">
-              <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col items-start gap-0.5">
                 <span className="text-white font-bold text-xs sm:text-sm whitespace-nowrap">2주차</span>
                 <span className="bg-sky-200 text-sky-900 text-xs sm:text-sm font-bold px-2 py-0.5 rounded whitespace-nowrap">
                   감동(EMOTION)
@@ -293,8 +293,8 @@ const ScheduleTab = ({ campId = 'je', clientId = 'smis' }: { campId?: string; cl
             </div>
 
             {/* 3주차 성장구간 */}
-            <div className="flex-1 flex flex-col gap-1.5">
-              <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col items-start gap-0.5">
                 <span className="text-white font-bold text-xs sm:text-sm whitespace-nowrap">3주차</span>
                 <span className="bg-rose-200 text-rose-900 text-xs sm:text-sm font-bold px-2 py-0.5 rounded whitespace-nowrap">
                   성장(GROWTH)
